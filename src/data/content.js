@@ -11,7 +11,7 @@ export const siteInfo = {
   address: "Bateau Larissa, Rue du Port, 45360 Châtillon-sur-Loire",
   phone: "07 83 10 00 12",
   phoneLink: "tel:+33783100012",
-  hours: "Ouvert jusqu'à 19:00",
+  hours: "De 09:00 a 19:00",
   rating: "5.0",
   ratingCount: "3",
   googleMapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2714.5!2d2.7575!3d47.5933!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e93a8b8b8b8b8b%3A0x0!2sBateau%20Larissa%2C%20Rue%20du%20Port%2C%2045360%20Ch%C3%A2tillon-sur-Loire!5e0!3m2!1sfr!2sfr!4v1700000000000!5m2!1sfr!2sfr",
@@ -50,7 +50,7 @@ export const about = {
   stats: [
     { value: "5.0/5", label: "Note Google" },
     { value: "100%", label: "Clients satisfaits" },
-    { value: "7j/7", label: "Disponibilité" },
+    { value: "6j/7", label: "Disponibilité" },
   ],
 };
 
