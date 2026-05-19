@@ -39,7 +39,7 @@ export const company = {
 
 /** Horaires d'ouverture (affichage + données structurées). */
 export const openingHours = {
-  display: 'Lundi – Samedi : 08h00 – 19h00',
+  display: 'Lundi – Samedi : 09h00 – 19h00',
   closed: 'Dimanche : fermé',
   /** Format Schema.org. */
   schema: {
