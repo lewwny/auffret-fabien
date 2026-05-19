@@ -1,6 +1,6 @@
 ---
-// Section Contact : formulaire prêt à brancher, coordonnées,
-// horaires et carte Google Maps intégrée.
+// Section Contact : formulaire prêt à brancher avec animation de
+// confirmation, coordonnées, horaires et carte Google Maps intégrée.
 import Icon from './Icon.astro';
 import SectionHeading from './SectionHeading.astro';
 import { company, contact, openingHours } from '../data/site';
@@ -14,17 +14,21 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
     <SectionHeading label={contact.label} title={contact.title} subtitle={contact.subtitle} />
 
     <div class="mt-14 grid gap-8 lg:grid-cols-2">
-      <!-- Formulaire de contact -->
-      <div class="border-night-100 rounded-2xl border bg-white p-6 shadow-sm sm:p-8">
+      <!-- Carte formulaire (contient le formulaire ET l'écran de confirmation) -->
+      <div
+        class="border-night-100 relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm sm:p-8"
+      >
         {
           /*
           Formulaire prêt à être branché.
-          Pour le rendre fonctionnel, renseignez l'attribut `action` avec
-          un service de traitement de formulaire (Formspree, Netlify Forms,
-          Web3Forms…) puis adaptez la méthode si besoin.
+          Pour un envoi réel, renseignez l'attribut `action` avec un service
+          de traitement de formulaire (Formspree, Netlify Forms, Web3Forms…).
+          Le script en bas de fichier intercepte l'envoi pour afficher
+          l'animation de confirmation ; retirez-le si le backend gère la
+          redirection lui-même.
         */
         }
-        <form action="#" method="post" class="flex flex-col gap-5">
+        <form action="#" method="post" class="flex flex-col gap-5" data-contact-form novalidate>
           <div>
             <label for="name" class="text-night-800 mb-1.5 block text-sm font-semibold">
               Nom complet
@@ -68,15 +72,60 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
           </div>
           <button
             type="submit"
-            class="bg-volt-400 text-night-950 hover:bg-volt-300 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold shadow-sm transition-all hover:shadow-md"
+            class="bg-volt-400 text-night-950 hover:bg-volt-300 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
+            data-submit-btn
           >
-            {f.submit}
-            <Icon name="arrow" class="h-5 w-5" />
+            <span data-btn-label class="inline-flex items-center gap-2">
+              {f.submit}
+              <Icon name="arrow" class="h-5 w-5" />
+            </span>
+            <span
+              data-btn-spinner
+              class="border-night-950/30 border-t-night-950 hidden h-5 w-5 rounded-full border-2"
+            ></span>
           </button>
           <p class="text-night-400 text-center text-xs">
             Réponse sous 24h — devis gratuit et sans engagement.
           </p>
         </form>
+
+        <!-- Écran de confirmation animé (affiché après l'envoi) -->
+        <div
+          class="absolute inset-0 hidden flex-col items-center justify-center bg-white p-8 text-center"
+          data-success
+          role="status"
+          aria-live="polite"
+        >
+          <span
+            class="success-badge bg-volt-400/15 flex h-20 w-20 items-center justify-center rounded-full"
+          >
+            <svg
+              class="checkmark h-11 w-11"
+              viewBox="0 0 52 52"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path class="checkmark-check text-volt-600" d="M14 27l8 8 17-17"></path>
+            </svg>
+          </span>
+          <h3 class="success-text text-night-900 mt-6 text-2xl font-extrabold">
+            Demande envoyée !
+          </h3>
+          <p class="success-text text-night-500 mt-2 max-w-xs text-sm leading-relaxed">
+            Merci pour votre message. Je vous recontacte sous 24h pour votre devis gratuit.
+          </p>
+          <button
+            type="button"
+            class="success-text border-night-200 text-night-700 hover:border-volt-400 hover:text-night-900 mt-6 inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-colors"
+            data-reset
+          >
+            Envoyer une autre demande
+          </button>
+        </div>
       </div>
 
       <!-- Coordonnées + carte -->
@@ -140,3 +189,116 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
     </div>
   </div>
 </section>
+
+<script>
+  // Intercepte l'envoi du formulaire pour jouer l'animation de confirmation.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const success = document.querySelector<HTMLElement>('[data-success]');
+  const submitBtn = document.querySelector<HTMLButtonElement>('[data-submit-btn]');
+  const btnLabel = document.querySelector<HTMLElement>('[data-btn-label]');
+  const btnSpinner = document.querySelector<HTMLElement>('[data-btn-spinner]');
+  const resetBtn = document.querySelector<HTMLButtonElement>('[data-reset]');
+
+  const showSuccess = () => {
+    // `invisible` (et non `hidden`) : le formulaire garde sa hauteur,
+    // l'écran de confirmation se superpose donc parfaitement.
+    form?.classList.add('invisible');
+    success?.classList.remove('hidden');
+    success?.classList.add('flex');
+  };
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    // Validation native avant l'animation.
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    // État « envoi en cours » sur le bouton.
+    if (submitBtn) submitBtn.disabled = true;
+    btnLabel?.classList.add('hidden');
+    btnSpinner?.classList.remove('hidden');
+    btnSpinner?.classList.add('inline-block', 'animate-spin');
+
+    // Courte temporisation pour simuler l'envoi, puis confirmation.
+    window.setTimeout(showSuccess, 750);
+  });
+
+  // Permet de renvoyer une demande.
+  resetBtn?.addEventListener('click', () => {
+    success?.classList.add('hidden');
+    success?.classList.remove('flex');
+    form?.classList.remove('invisible');
+    form?.reset();
+    if (submitBtn) submitBtn.disabled = false;
+    btnLabel?.classList.remove('hidden');
+    btnSpinner?.classList.add('hidden');
+    btnSpinner?.classList.remove('inline-block', 'animate-spin');
+  });
+</script>
+
+<style>
+  /* Pastille de succès : apparition avec rebond. */
+  [data-success]:not(.hidden) .success-badge {
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  /* Tracé progressif de la coche. */
+  .checkmark-check {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+  }
+  [data-success]:not(.hidden) .checkmark-check {
+    animation: draw 0.45s 0.35s ease-out forwards;
+  }
+
+  /* Apparition en fondu du texte de confirmation. */
+  [data-success]:not(.hidden) .success-text {
+    opacity: 0;
+    animation: fade-up 0.5s 0.5s ease-out forwards;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-success]:not(.hidden) .success-badge,
+    [data-success]:not(.hidden) .checkmark-check,
+    [data-success]:not(.hidden) .success-text {
+      animation: none;
+    }
+    .checkmark-check {
+      stroke-dashoffset: 0;
+    }
+    [data-success]:not(.hidden) .success-text {
+      opacity: 1;
+    }
+  }
+</style>

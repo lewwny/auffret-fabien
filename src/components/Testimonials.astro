@@ -1,5 +1,5 @@
 ---
-// Section Avis clients : témoignages issus des avis Google.
+// Section Avis clients : témoignages clients.
 import Icon from './Icon.astro';
 import SectionHeading from './SectionHeading.astro';
 import { company, testimonials } from '../data/site';
@@ -38,7 +38,7 @@ import { company, testimonials } from '../data/site';
               </span>
               <span>
                 <span class="block text-sm font-bold text-white">{review.name}</span>
-                <span class="text-night-400 block text-xs">Avis Google vérifié</span>
+                <span class="text-night-400 block text-xs">Client vérifié</span>
               </span>
             </figcaption>
           </li>
@@ -48,7 +48,7 @@ import { company, testimonials } from '../data/site';
 
     <p class="text-night-300 mt-10 text-center text-sm">
       <span class="text-volt-300 font-bold">{company.rating.value} / 5</span>
-      sur la base de {company.rating.count} avis Google.
+      sur la base de {testimonials.reviews.length} avis clients.
     </p>
   </div>
 </section>

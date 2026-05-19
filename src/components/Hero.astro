@@ -1,142 +1,115 @@
 ---
-// Section Hero : titre H1 optimisé SEO, accents « électriques » sur
-// fond bleu marine. Aucune image externe (LCP instantané).
+// Section Hero : photo de fond plein écran + voile bleu marine,
+// titre H1 optimisé SEO et appels à l'action.
+// La photo est optimisée par Astro (AVIF/WebP, responsive).
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import heroPhoto from '../assets/photos/hero-electricien.jpg';
 import { company, hero, openingHours } from '../data/site';
 ---
 
-<section
-  id="accueil"
-  class="bg-night-950 relative isolate overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-28"
->
-  <!-- Décor : grille subtile + halos lumineux jaunes -->
-  <div class="absolute inset-0 -z-10" aria-hidden="true">
-    <div
-      class="absolute inset-0 opacity-[0.07]"
-      style="background-image:linear-gradient(var(--color-night-100) 1px,transparent 1px),linear-gradient(90deg,var(--color-night-100) 1px,transparent 1px);background-size:48px 48px;"
-    >
-    </div>
-    <div class="bg-volt-500/20 absolute -top-24 -right-20 h-80 w-80 rounded-full blur-3xl"></div>
-    <div class="bg-volt-400/10 absolute bottom-0 -left-24 h-72 w-72 rounded-full blur-3xl"></div>
+<section id="accueil" class="relative isolate flex min-h-[88vh] items-center overflow-hidden">
+  <!-- Photo de fond (image LCP : chargement prioritaire, non différé) -->
+  <Image
+    src={heroPhoto}
+    alt="Fabien Auffret, électricien, en intervention sur une installation électrique"
+    class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+
+  <!-- Voile dégradé pour la lisibilité du texte -->
+  <div
+    class="from-night-950 via-night-950/90 to-night-950/45 absolute inset-0 -z-10 bg-gradient-to-r"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="from-night-950 absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t to-transparent"
+    aria-hidden="true"
+  >
   </div>
 
-  <div
-    class="mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
-  >
-    <!-- Colonne texte -->
-    <div>
+  <div class="mx-auto w-full max-w-6xl px-4 pt-28 pb-16 sm:px-6 sm:pt-32">
+    <div class="max-w-2xl">
       <p
-        class="border-volt-400/30 bg-volt-400/10 text-volt-200 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-semibold"
+        class="border-volt-400/30 bg-volt-400/10 text-volt-200 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-semibold backdrop-blur"
       >
         <Icon name="star" class="text-volt-300 h-4 w-4" filled />
         {hero.badge}
       </p>
 
       <h1
-        class="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
+        class="mt-5 text-4xl leading-[1.08] font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl"
       >
         {hero.title}
       </h1>
 
-      <p class="text-night-200 mt-5 max-w-xl text-lg leading-relaxed">
+      <p class="text-night-100 mt-5 max-w-xl text-lg leading-relaxed">
         {hero.subtitle}
       </p>
 
-      <!-- Points clés rassurants -->
-      <ul class="mt-7 flex flex-col gap-2.5">
+      <ul class="mt-7 flex flex-wrap gap-x-6 gap-y-2.5">
         {
           hero.highlights.map((item) => (
-            <li class="text-night-100 flex items-center gap-3">
-              <span class="bg-volt-400/15 text-volt-300 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+            <li class="text-night-100 flex items-center gap-2.5">
+              <span class="bg-volt-400 text-night-950 flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
                 <Icon name="check" class="h-4 w-4" />
               </span>
-              <span class="font-medium">{item}</span>
+              <span class="text-sm font-medium">{item}</span>
             </li>
           ))
         }
       </ul>
 
-      <!-- Appels à l'action -->
       <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
         <a
           href={hero.ctaPrimary.href}
-          class="group bg-volt-400 text-night-950 shadow-volt-500/20 hover:bg-volt-300 hover:shadow-volt-500/30 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold shadow-lg transition-all hover:shadow-xl"
+          class="group bg-volt-400 text-night-950 shadow-volt-500/25 hover:bg-volt-300 hover:shadow-volt-500/35 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold shadow-lg transition-all hover:shadow-xl"
         >
           {hero.ctaPrimary.label}
           <Icon name="arrow" class="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </a>
         <a
           href={company.phoneLink}
-          class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/20 px-6 py-3.5 text-base font-semibold text-white transition-colors hover:border-white/40 hover:bg-white/5"
+          class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-base font-semibold text-white backdrop-blur transition-colors hover:border-white/45 hover:bg-white/10"
         >
           <Icon name="phone" class="text-volt-300 h-5 w-5" />
           {company.phoneDisplay}
         </a>
       </div>
     </div>
+  </div>
 
-    <!-- Colonne carte de visite -->
-    <div class="relative">
-      <div
-        class="bg-night-900/80 rounded-2xl border border-white/10 p-6 shadow-2xl backdrop-blur sm:p-8"
-      >
-        <div class="flex items-center gap-3">
-          <span
-            class="bg-volt-400 text-night-950 flex h-12 w-12 items-center justify-center rounded-xl"
-          >
-            <Icon name="bolt" class="h-7 w-7" />
-          </span>
-          <div>
-            <p class="text-base font-bold text-white">{company.fullName}</p>
-            <p class="text-night-300 text-sm">Artisan indépendant</p>
-          </div>
-        </div>
-
-        <dl class="mt-6 flex flex-col gap-4 border-t border-white/10 pt-6">
-          <div class="flex items-start gap-3">
-            <Icon name="pin" class="text-volt-300 mt-0.5 h-5 w-5 shrink-0" />
+  <!-- Bandeau de réassurance en bas du héros -->
+  <div class="bg-night-950/85 absolute inset-x-0 bottom-0 border-t border-white/10 backdrop-blur">
+    <dl class="mx-auto grid max-w-6xl grid-cols-2 gap-px px-4 sm:px-6 md:grid-cols-4">
+      {
+        [
+          { icon: 'pin', label: 'Zone', value: company.address.locality },
+          {
+            icon: 'clock',
+            label: 'Horaires',
+            value: openingHours.display.replace('Lundi – Samedi', 'Lun.–Sam.'),
+          },
+          { icon: 'shield', label: 'Garantie', value: 'Travail aux normes' },
+          { icon: 'star', label: 'Satisfaction', value: `${company.rating.value}/5 sur Google` },
+        ].map((item) => (
+          <div class="flex items-center gap-3 py-4">
+            <span class="bg-volt-400/15 text-volt-300 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg">
+              <Icon name={item.icon} class="h-5 w-5" />
+            </span>
             <div>
-              <dt class="text-night-400 text-xs font-medium tracking-wide uppercase">Adresse</dt>
-              <dd class="text-night-100 text-sm">
-                {company.address.street}<br />
-                {company.address.postalCode}
-                {company.address.locality}
-              </dd>
+              <dt class="text-night-400 text-[0.7rem] font-medium tracking-wide uppercase">
+                {item.label}
+              </dt>
+              <dd class="text-sm font-semibold text-white">{item.value}</dd>
             </div>
           </div>
-          <div class="flex items-start gap-3">
-            <Icon name="clock" class="text-volt-300 mt-0.5 h-5 w-5 shrink-0" />
-            <div>
-              <dt class="text-night-400 text-xs font-medium tracking-wide uppercase">Horaires</dt>
-              <dd class="text-night-100 text-sm">
-                {openingHours.display}<br />
-                {openingHours.closed}
-              </dd>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <Icon name="phone" class="text-volt-300 mt-0.5 h-5 w-5 shrink-0" />
-            <div>
-              <dt class="text-night-400 text-xs font-medium tracking-wide uppercase">Téléphone</dt>
-              <dd>
-                <a
-                  href={company.phoneLink}
-                  class="hover:text-volt-300 text-sm font-semibold text-white"
-                >
-                  {company.phoneDisplay}
-                </a>
-              </dd>
-            </div>
-          </div>
-        </dl>
-
-        <a
-          href="#contact"
-          class="mt-6 block rounded-xl bg-white/5 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-white/10"
-        >
-          {hero.ctaSecondary.label}
-        </a>
-      </div>
-    </div>
+        ))
+      }
+    </dl>
   </div>
 </section>

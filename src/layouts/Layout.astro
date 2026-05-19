@@ -2,7 +2,7 @@
 // Layout principal : <head> SEO complet, Open Graph, Twitter Card
 // et données structurées JSON-LD pour le référencement local.
 import '../styles/global.css';
-import { company, openingHours, seo, services, serviceArea } from '../data/site';
+import { company, openingHours, seo, services, serviceArea, testimonials } from '../data/site';
 
 interface Props {
   title?: string;
@@ -55,9 +55,15 @@ const jsonLd = {
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: company.rating.value,
-    reviewCount: company.rating.count,
+    reviewCount: testimonials.reviews.length,
     bestRating: '5',
   },
+  review: testimonials.reviews.map((r) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: r.name },
+    reviewRating: { '@type': 'Rating', ratingValue: r.rating, bestRating: 5 },
+    reviewBody: r.text,
+  })),
 };
 ---
 

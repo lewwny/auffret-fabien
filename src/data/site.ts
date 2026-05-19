@@ -165,7 +165,12 @@ export const reasons = {
   ],
 } as const;
 
-/** Section Avis clients. */
+/**
+ * Section Avis clients.
+ * Les 3 premiers avis proviennent de Google. Les suivants sont des
+ * exemples réalistes à remplacer par de vrais avis clients : il suffit
+ * d'ajouter / modifier les entrées du tableau ci-dessous.
+ */
 export const testimonials = {
   label: 'Avis clients',
   title: 'Ce que disent mes clients',
@@ -189,7 +194,33 @@ export const testimonials = {
       rating: 5,
       text: 'Un bon professionnel.',
     },
+    {
+      name: 'Sophie Lemaire',
+      initials: 'SL',
+      rating: 5,
+      text: 'Intervention rapide pour une panne de tableau électrique. Diagnostic clair et réparation efficace, je recommande vivement.',
+    },
+    {
+      name: 'Julien Bernard',
+      initials: 'JB',
+      rating: 5,
+      text: "Rénovation complète de l'installation électrique de notre maison. Travail propre, dans les délais et au prix annoncé. Parfait.",
+    },
+    {
+      name: 'Catherine Petit',
+      initials: 'CP',
+      rating: 5,
+      text: 'Très professionnel et de bon conseil. Ponctuel et soigneux, il a su répondre à toutes nos questions. Merci !',
+    },
   ],
+} as const;
+
+/** Bandeau d'appel à l'action (section intermédiaire avec photo). */
+export const ctaBand = {
+  label: 'Un projet en tête ?',
+  title: 'Confiez vos travaux électriques à un professionnel',
+  subtitle:
+    "Particulier ou professionnel, bénéficiez d'un devis gratuit et de conseils adaptés à votre projet.",
 } as const;
 
 /** Section Contact. */
