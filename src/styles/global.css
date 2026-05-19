@@ -1,0 +1,99 @@
+/* ============================================================
+   STYLES GLOBAUX — Tailwind CSS v4
+   La police Inter est auto-hébergée (zéro requête externe)
+   pour un score Lighthouse et une confidentialité optimaux.
+   ============================================================ */
+
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+
+@theme {
+  --font-sans:
+    'Inter Variable', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Bleu marine — base sombre, professionnelle et rassurante. */
+  --color-night-50: #f2f5f9;
+  --color-night-100: #e2e8f1;
+  --color-night-200: #c5d0e0;
+  --color-night-300: #97aac6;
+  --color-night-400: #6a82a6;
+  --color-night-500: #4c648a;
+  --color-night-600: #3a4f70;
+  --color-night-700: #2d3e59;
+  --color-night-800: #1d2b42;
+  --color-night-900: #121d30;
+  --color-night-950: #0a1220;
+
+  /* Jaune « électrique » — accent énergique et chaleureux. */
+  --color-volt-50: #fffbeb;
+  --color-volt-100: #fef3c7;
+  --color-volt-200: #fde58a;
+  --color-volt-300: #fcd34d;
+  --color-volt-400: #fbbf24;
+  --color-volt-500: #f5a809;
+  --color-volt-600: #d98c05;
+  --color-volt-700: #b46e08;
+}
+
+/* Décalage du scroll pour compenser le header sticky lors du saut d'ancre. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: white;
+  color: var(--color-night-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Respecte la préférence système « animations réduites ». */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Anneau de focus accessible et visible sur tous les éléments interactifs. */
+:where(a, button, input, textarea):focus-visible {
+  outline: 3px solid var(--color-volt-400);
+  outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Apparition douce des sections au défilement. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal.is-visible {
+  animation: reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+  }
+}

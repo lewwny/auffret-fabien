@@ -1,0 +1,108 @@
+---
+// Pied de page : rappel des coordonnées, navigation,
+// zones d'intervention et liens légaux.
+import Icon from './Icon.astro';
+import { company, navigation, services, serviceArea } from '../data/site';
+
+const year = new Date().getFullYear();
+const allTowns = [serviceArea.primary, ...serviceArea.towns];
+---
+
+<footer class="bg-night-950 border-t border-white/10">
+  <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <!-- Marque -->
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span
+            class="bg-volt-400 text-night-950 flex h-10 w-10 items-center justify-center rounded-xl"
+          >
+            <Icon name="bolt" class="h-6 w-6" />
+          </span>
+          <span class="flex flex-col leading-none">
+            <span class="text-base font-extrabold text-white">{company.name}</span>
+            <span class="text-volt-300 text-xs font-medium tracking-[0.18em] uppercase">
+              {company.role}
+            </span>
+          </span>
+        </div>
+        <p class="text-night-400 mt-4 text-sm leading-relaxed">
+          Électricien indépendant à {company.address.locality}. Installation, dépannage et
+          rénovation électrique pour les particuliers et les professionnels.
+        </p>
+        <a
+          href={company.phoneLink}
+          class="hover:text-volt-300 mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white"
+        >
+          <Icon name="phone" class="text-volt-300 h-4 w-4" />
+          {company.phoneDisplay}
+        </a>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Liens de navigation du pied de page">
+        <h2 class="text-sm font-bold tracking-wide text-white uppercase">Navigation</h2>
+        <ul class="mt-4 flex flex-col gap-2.5">
+          {
+            navigation.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-night-400 hover:text-volt-300 text-sm transition-colors"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <!-- Services -->
+      <div>
+        <h2 class="text-sm font-bold tracking-wide text-white uppercase">Services</h2>
+        <ul class="mt-4 flex flex-col gap-2.5">
+          {
+            services.items.map((service) => (
+              <li>
+                <a
+                  href="#services"
+                  class="text-night-400 hover:text-volt-300 text-sm transition-colors"
+                >
+                  {service.title}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <!-- Zones d'intervention -->
+      <div>
+        <h2 class="text-sm font-bold tracking-wide text-white uppercase">Zones d'intervention</h2>
+        <p class="text-night-400 mt-4 text-sm leading-relaxed">
+          {allTowns.join(' · ')} et leurs environs ({company.address.region}).
+        </p>
+      </div>
+    </div>
+
+    <!-- Barre légale -->
+    <div
+      class="text-night-500 mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-sm sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} {company.fullName}. Tous droits réservés.</p>
+      <nav aria-label="Liens légaux">
+        <ul class="flex flex-wrap gap-4">
+          <li>
+            <a href="/mentions-legales" class="hover:text-volt-300 transition-colors">
+              Mentions légales
+            </a>
+          </li>
+          <li>
+            <a href="#contact" class="hover:text-volt-300 transition-colors">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,75 @@
+---
+// Page Mentions légales — obligatoire pour un site professionnel en France.
+// Les champs entre crochets [ ] sont à compléter par l'exploitant du site.
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { company } from '../data/site';
+
+const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.locality}`;
+---
+
+<Layout
+  title={`Mentions légales | ${company.fullName}`}
+  description={`Mentions légales du site de ${company.fullName}, électricien à ${company.address.locality}.`}
+>
+  <Header />
+
+  <main class="bg-white pt-28 pb-20 sm:pt-32">
+    <article class="mx-auto max-w-3xl px-4 sm:px-6">
+      <a href="/" class="text-volt-600 hover:text-volt-700 text-sm font-semibold">
+        ← Retour à l'accueil
+      </a>
+      <h1 class="text-night-900 mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+        Mentions légales
+      </h1>
+
+      <div class="text-night-600 mt-8 flex flex-col gap-8">
+        <section>
+          <h2 class="text-night-900 text-lg font-bold">Éditeur du site</h2>
+          <p class="mt-2 leading-relaxed">
+            {company.fullName}<br />
+            Adresse : {fullAddress}<br />
+            Téléphone : {company.phoneDisplay}<br />
+            SIRET : [à compléter]<br />
+            Numéro de TVA intracommunautaire : [à compléter]
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-night-900 text-lg font-bold">Directeur de la publication</h2>
+          <p class="mt-2 leading-relaxed">{company.name}</p>
+        </section>
+
+        <section>
+          <h2 class="text-night-900 text-lg font-bold">Hébergement</h2>
+          <p class="mt-2 leading-relaxed">
+            Le site est hébergé par : [nom de l'hébergeur]<br />
+            [adresse de l'hébergeur]
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-night-900 text-lg font-bold">Propriété intellectuelle</h2>
+          <p class="mt-2 leading-relaxed">
+            L'ensemble des contenus présents sur ce site (textes, images, logo) est protégé par le
+            droit d'auteur. Toute reproduction, même partielle, est interdite sans autorisation
+            préalable.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-night-900 text-lg font-bold">Données personnelles</h2>
+          <p class="mt-2 leading-relaxed">
+            Les informations transmises via le formulaire de contact sont utilisées uniquement pour
+            répondre à votre demande. Conformément au RGPD, vous disposez d'un droit d'accès, de
+            rectification et de suppression de vos données en contactant
+            {company.fullName} au {company.phoneDisplay}.
+          </p>
+        </section>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,73 @@
+---
+// Section À propos : présentation, statistiques de confiance
+// et grille « Pourquoi me choisir ».
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { about, reasons } from '../data/site';
+---
+
+<section id="a-propos" class="bg-white py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <!-- Présentation -->
+      <div>
+        <SectionHeading label={about.label} title={about.title} align="left" />
+        <div class="mt-6 flex flex-col gap-4">
+          {about.paragraphs.map((text) => <p class="text-night-600 leading-relaxed">{text}</p>)}
+        </div>
+      </div>
+
+      <!-- Panneau statistiques -->
+      <div class="relative">
+        <div
+          class="bg-volt-400/20 absolute -top-3 -right-3 h-24 w-24 rounded-2xl"
+          aria-hidden="true"
+        >
+        </div>
+        <div class="bg-night-950 relative rounded-2xl p-8 shadow-xl sm:p-10">
+          <div class="flex items-center gap-3">
+            <span
+              class="bg-volt-400 text-night-950 flex h-12 w-12 items-center justify-center rounded-xl"
+            >
+              <Icon name="bolt" class="h-7 w-7" />
+            </span>
+            <p class="text-lg font-bold text-white">Un artisan de confiance</p>
+          </div>
+          <dl class="mt-8 grid grid-cols-3 gap-4">
+            {
+              about.stats.map((stat) => (
+                <div class="text-center">
+                  <dt class="sr-only">{stat.label}</dt>
+                  <dd>
+                    <span class="text-volt-300 block text-2xl font-extrabold sm:text-3xl">
+                      {stat.value}
+                    </span>
+                    <span class="text-night-300 mt-1 block text-xs font-medium">{stat.label}</span>
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pourquoi me choisir -->
+    <div class="mt-20 sm:mt-24">
+      <SectionHeading label={reasons.label} title={reasons.title} />
+      <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          reasons.items.map((reason) => (
+            <li class="reveal border-night-100 bg-night-50 flex flex-col items-center rounded-2xl border p-6 text-center">
+              <span class="bg-volt-400/15 text-volt-600 flex h-12 w-12 items-center justify-center rounded-full">
+                <Icon name={reason.icon} class="h-6 w-6" />
+              </span>
+              <h3 class="text-night-900 mt-4 text-base font-bold">{reason.title}</h3>
+              <p class="text-night-500 mt-2 text-sm leading-relaxed">{reason.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
