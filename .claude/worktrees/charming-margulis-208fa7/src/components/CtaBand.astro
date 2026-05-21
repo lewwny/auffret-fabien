@@ -1,0 +1,114 @@
+---
+// Bandeau d'appel à l'action intermédiaire : texte à gauche, photo
+// de chantier à droite dans un cadre arrondi.
+import { Image } from 'astro:assets';
+import { company, ctaBand } from '../data/site';
+import cablagePhoto from '../assets/photos/cablage.jpg';
+---
+
+<section class="ctaband">
+  <div class="wrap">
+    <div class="ctaband-inner reveal">
+      <div class="ctaband-text">
+        <span class="tag">{ctaBand.tag}</span>
+        <h2>
+          {
+            ctaBand.title.map((line, i) => (
+              <>
+                {i === ctaBand.emphasisLine ? <span class="em-blue">{line}</span> : line}
+                {i < ctaBand.title.length - 1 ? ' ' : ''}
+              </>
+            ))
+          }
+        </h2>
+        <p>{ctaBand.subtitle}</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">
+            Demander un devis
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a class="btn btn-ink" href={company.phoneLink}>{company.phoneDisplay}</a>
+        </div>
+      </div>
+      <div class="ctaband-img">
+        <Image
+          src={cablagePhoto}
+          alt="Travaux de câblage réalisés par Fabien Auffret"
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 920px) 45vw, 90vw"
+          class="cta-photo"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ctaband {
+    background: var(--color-canvas);
+  }
+  .ctaband-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    gap: 32px;
+    padding: 32px 0;
+  }
+  @media (max-width: 920px) {
+    .ctaband-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ctaband-text {
+    padding: 56px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .ctaband-text h2 {
+    font-size: clamp(36px, 4.6vw, 60px);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    margin: 18px 0;
+    font-weight: 500;
+    max-width: 16ch;
+  }
+  .ctaband-text h2 .em-blue {
+    color: var(--color-electric);
+  }
+  .ctaband-text p {
+    color: var(--color-ink-2);
+    font-size: 17px;
+    max-width: 44ch;
+    margin: 0 0 32px;
+  }
+  .cta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ctaband-img {
+    background: var(--color-ink);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    min-height: 360px;
+  }
+  .cta-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>

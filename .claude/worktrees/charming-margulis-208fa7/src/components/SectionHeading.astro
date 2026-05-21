@@ -1,0 +1,32 @@
+---
+// En-tête de section réutilisable : index (« 02 — SERVICES »),
+// label monospace, titre H2 avec emphase italique bleue et lead.
+interface Props {
+  index: string;
+  label: string;
+  title: readonly string[];
+  /** Index de la ligne mise en italique bleu (0-based). */
+  emphasisLine?: number;
+  lead?: string;
+}
+
+const { index, label, title, emphasisLine = -1, lead } = Astro.props;
+---
+
+<div class="section-head reveal">
+  <div class="col-tag">
+    <span class="idx">{index}</span>
+    <span class="label">{label}</span>
+  </div>
+  <h2 class="h-section">
+    {
+      title.map((line, i) => (
+        <>
+          {i === emphasisLine ? <span class="em-blue">{line}</span> : line}
+          {i < title.length - 1 ? ' ' : ''}
+        </>
+      ))
+    }
+  </h2>
+  {lead && <p class="lead">{lead}</p>}
+</div>

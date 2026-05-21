@@ -1,0 +1,74 @@
+---
+// Page d'accueil — landing page one-page de Fabien Auffret, électricien.
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import About from '../components/About.astro';
+import Reasons from '../components/Reasons.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Contact from '../components/Contact.astro';
+import ServiceArea from '../components/ServiceArea.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <!-- Lien d'évitement (accessibilité clavier / lecteurs d'écran) -->
+  <a href="#accueil" class="skip-link">Aller au contenu principal</a>
+
+  <Header />
+
+  <main>
+    <Hero />
+    <Services />
+    <About />
+    <Reasons />
+    <CtaBand />
+    <Contact />
+    <ServiceArea />
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 1rem;
+  }
+  .skip-link:focus {
+    left: 1rem;
+    z-index: 100;
+    background: var(--color-electric);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  // Apparition progressive des éléments `.reveal` au défilement.
+  const items = document.querySelectorAll<HTMLElement>('.reveal');
+
+  if (
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    'IntersectionObserver' in window
+  ) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: '0px 0px -60px' }
+    );
+    items.forEach((item) => observer.observe(item));
+  } else {
+    items.forEach((item) => item.classList.add('in'));
+  }
+</script>

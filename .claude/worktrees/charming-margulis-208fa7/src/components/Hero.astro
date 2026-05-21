@@ -1,0 +1,394 @@
+---
+// Section Hero : meta-row (statut + note + zone), grille typo + carte spec,
+// puis bandeau de statistiques. Fond crème + trame grille décorative.
+import { company, hero } from '../data/site';
+
+const starPath =
+  'm12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z';
+---
+
+<section class="hero" id="accueil">
+  <div class="wrap hero-inner">
+    <!-- Meta-row : statut / note / zone -->
+    <div class="hero-meta-row reveal">
+      <div class="left">
+        <span class="status"><span class="pulse" aria-hidden="true"></span>{hero.status}</span>
+        <span class="badge">
+          <span class="stars" aria-label={hero.ratingLabel}>
+            {
+              Array.from({ length: 5 }).map(() => (
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d={starPath} />
+                </svg>
+              ))
+            }
+          </span>
+          {hero.ratingLabel}
+        </span>
+      </div>
+      <div class="right">
+        <span class="tag">{company.address.locality} · {company.address.postalCode}</span>
+      </div>
+    </div>
+
+    <!-- Grille principale : titre + carte spec -->
+    <div class="hero-grid">
+      <div class="hero-text reveal">
+        <h1 class="display">
+          {
+            hero.title.map((line, i) => (
+              <span class="line">
+                {i === hero.emphasisLine ? <span class="em-blue">{line}</span> : line}
+              </span>
+            ))
+          }
+        </h1>
+        <div class="underbar">
+          <span class="pipe" aria-hidden="true"></span>
+          {hero.underbar}
+        </div>
+
+        <p class="hero-sub">{hero.subtitle}</p>
+
+        <div class="hero-cta">
+          <a class="btn btn-primary" href={hero.ctaPrimary.href}>
+            {hero.ctaPrimary.label}
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M5 12h14M12 5l7 7-7 7"></path>
+            </svg>
+          </a>
+          <a class="btn btn-ghost" href={hero.ctaSecondary.href}>{hero.ctaSecondary.label}</a>
+        </div>
+      </div>
+
+      <div class="hero-card reveal">
+        <div class="hero-card-head">
+          <span>● PRESTATIONS</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i class="live"></i></span>
+        </div>
+        <div class="hero-card-body">
+          <div class="hero-card-title">Ce que vous obtenez avec moi.</div>
+          {
+            hero.specs.map((spec, i) => (
+              <div class="spec-row">
+                <span class="k">{String(i + 1).padStart(2, '0')}</span>
+                <span class="v">{spec}</span>
+                <span class="chk" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                  >
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </span>
+              </div>
+            ))
+          }
+        </div>
+        <div class="hero-card-foot">
+          <span>Réf. <strong>{company.ref}</strong></span>
+          <span>v.01</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bandeau de statistiques -->
+    <div class="hero-bottom reveal">
+      {
+        hero.stats.map((stat) => (
+          <div class="h-stat">
+            <div class="v">
+              <span class="em-blue">{stat.value}</span>
+              <span class="unit"> {stat.unit}</span>
+            </div>
+            <div class="l">{stat.label}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 64px 0 96px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--color-line-soft) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-line-soft) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 80% 60% at 80% 30%, black 0%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 80% 30%, black 0%, transparent 70%);
+    pointer-events: none;
+    opacity: 0.8;
+  }
+  .hero-inner {
+    position: relative;
+  }
+
+  /* ── Meta-row ───────────────────────────────────────────── */
+  .hero-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 28px;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .hero-meta-row .left {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .hero-meta-row .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    color: var(--color-ink-2);
+    text-transform: uppercase;
+  }
+  .hero-meta-row .status .pulse {
+    width: 8px;
+    height: 8px;
+    background: #2ecc71;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px color-mix(in oklab, #2ecc71 25%, transparent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 4px color-mix(in oklab, #2ecc71 30%, transparent);
+    }
+    50% {
+      box-shadow: 0 0 0 7px color-mix(in oklab, #2ecc71 10%, transparent);
+    }
+  }
+  .hero-meta-row .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    background: var(--color-paper);
+    font-size: 12px;
+    color: var(--color-ink-2);
+  }
+  .hero-meta-row .badge .stars {
+    color: var(--color-electric);
+    display: flex;
+    gap: 1px;
+  }
+  .hero-meta-row .badge .stars svg {
+    width: 12px;
+    height: 12px;
+  }
+  .hero-meta-row .right .tag {
+    color: var(--color-mute);
+  }
+
+  /* ── Grille principale ──────────────────────────────────── */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+  }
+  @media (max-width: 980px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+  .hero-text h1 .line {
+    display: block;
+  }
+  .hero-text .underbar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    color: var(--color-mute);
+    text-transform: uppercase;
+  }
+  .hero-text .underbar .pipe {
+    width: 18px;
+    height: 1px;
+    background: var(--color-electric);
+  }
+  .hero-sub {
+    margin-top: 36px;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--color-ink-2);
+    max-width: 50ch;
+  }
+  .hero-cta {
+    margin-top: 32px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* ── Carte spec ─────────────────────────────────────────── */
+  .hero-card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--color-line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .hero-card-head .dots {
+    display: flex;
+    gap: 5px;
+  }
+  .hero-card-head .dots i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-line);
+    display: block;
+  }
+  .hero-card-head .dots i.live {
+    background: var(--color-electric);
+  }
+  .hero-card-body {
+    padding: 22px;
+  }
+  .hero-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--color-line);
+    align-items: center;
+    font-size: 14.5px;
+  }
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+  .spec-row .k {
+    width: 24px;
+    height: 24px;
+    background: var(--color-electric-soft);
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    color: var(--color-electric);
+    font-weight: 600;
+  }
+  .spec-row .v {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+  .spec-row .chk {
+    width: 18px;
+    height: 18px;
+    background: var(--color-electric);
+    color: white;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+  }
+  .spec-row .chk svg {
+    width: 11px;
+    height: 11px;
+  }
+  .hero-card-foot {
+    background: var(--color-canvas);
+    padding: 16px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--color-line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--color-mute);
+    text-transform: uppercase;
+  }
+  .hero-card-foot strong {
+    color: var(--color-electric);
+    font-weight: 600;
+  }
+
+  /* ── Statistiques ───────────────────────────────────────── */
+  .hero-bottom {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-line);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+  @media (max-width: 820px) {
+    .hero-bottom {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .h-stat .v {
+    font-size: clamp(34px, 4vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .h-stat .v .em-blue {
+    color: var(--color-electric);
+  }
+  .h-stat .v .unit {
+    color: var(--color-mute);
+    font-size: 0.5em;
+    vertical-align: middle;
+  }
+  .h-stat .l {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+</style>
