@@ -18,17 +18,23 @@ export const company = {
   phoneLink: 'tel:+33783100012',
 
   address: {
-    street: 'Bateau Larissa, Rue du Port',
+    street: 'Rue du Port',
+    extended: 'Bateau Larissa',
     postalCode: '45360',
     locality: 'Châtillon-sur-Loire',
     region: 'Loiret',
+    regionCode: '45',
     country: 'FR',
   },
 
   /** Coordonnées géographiques pour le SEO local (JSON-LD). */
   geo: { latitude: 47.5933, longitude: 2.7575 },
 
+  /** Note moyenne issue de Google (3 avis réels — donnée vérifiable). */
   rating: { value: '5.0', count: 3 },
+
+  /** Référence éditoriale affichée dans les éléments « spec sheet ». */
+  ref: 'FA-2026',
 
   /** Lien et iframe Google Maps. */
   maps: {
@@ -39,38 +45,51 @@ export const company = {
 
 /** Horaires d'ouverture (affichage + données structurées). */
 export const openingHours = {
-  display: 'Lundi – Samedi : 09h00 – 19h00',
+  display: 'Lun. – Sam. · 09 h – 19 h',
   closed: 'Dimanche : fermé',
+  short: 'Lun.–Sam. · 09–19 h',
   /** Format Schema.org. */
   schema: {
     days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    opens: '08:00',
+    opens: '09:00',
     closes: '19:00',
   },
 } as const;
 
 /** Liens de navigation (ancres internes de la page unique). */
 export const navigation = [
-  { label: 'Accueil', href: '#accueil' },
   { label: 'Services', href: '#services' },
   { label: 'À propos', href: '#a-propos' },
-  { label: 'Avis', href: '#avis' },
+  { label: 'Engagements', href: '#engagements' },
   { label: 'Contact', href: '#contact' },
 ] as const;
 
 /** Section Hero. */
 export const hero = {
-  badge: '5,0 / 5 sur Google',
-  title: 'Électricien de confiance à Châtillon-sur-Loire',
+  status: 'Disponible — devis sous 24 h',
+  ratingLabel: '5,0 sur Google',
+  title: ['Votre électricien', 'de confiance,', 'à Châtillon.'] as const,
+  /** Mot mis en italique bleu dans le titre (correspond à l'index du tableau ci-dessus). */
+  emphasisLine: 1,
+  underbar: 'Installation · Dépannage · Rénovation · Mise aux normes',
   subtitle:
-    'Installation, dépannage et rénovation électrique. Un travail soigné, des tarifs justes et un service professionnel pour tous vos projets, chez les particuliers comme chez les professionnels.',
-  highlights: [
-    'Devis gratuit & sans engagement',
-    'Intervention rapide',
-    'Travail conforme aux normes NF C 15-100',
-  ],
+    'Installation, dépannage et rénovation électrique. Un travail soigné, des tarifs justes et un service professionnel pour tous vos projets — particuliers comme professionnels.',
   ctaPrimary: { label: 'Demander un devis', href: '#contact' },
   ctaSecondary: { label: 'Voir mes services', href: '#services' },
+  /** Lignes de la carte « spec sheet » à droite du héros. */
+  specs: [
+    'Devis gratuit & sans engagement',
+    'Intervention rapide — réponse sous 24 h',
+    'Travaux conformes NF C 15-100',
+    'Particuliers & professionnels',
+  ],
+  /** Statistiques affichées en bas du héros. */
+  stats: [
+    { value: '5,0', unit: '/5', label: 'Note Google · 3 avis' },
+    { value: '100', unit: '%', label: 'Clients satisfaits' },
+    { value: '24', unit: 'h', label: 'Délai de réponse' },
+    { value: '6', unit: 'j/7', label: 'Disponibilité' },
+  ],
 } as const;
 
 /** Icônes minimalistes disponibles (voir le composant Icon). */
@@ -89,31 +108,28 @@ export type IconName =
 
 /** Section Services. */
 export const services = {
+  index: '02 — SERVICES',
   label: 'Mes prestations',
-  title: 'Des services électriques complets',
-  subtitle:
-    "De l'installation neuve à la mise aux normes, je vous propose un accompagnement complet et professionnel.",
+  title: ['Des services électriques', 'complets.'] as const,
+  emphasisLine: 1,
+  lead: "De l'installation neuve à la mise aux normes — un accompagnement complet, pensé pour durer.",
   items: [
     {
-      icon: 'bolt' as IconName,
       title: 'Installation électrique',
       description:
-        'Installation complète pour constructions neuves et extensions : tableaux électriques, prises, éclairage et câblage aux normes NF C 15-100.',
+        'Installation complète pour constructions neuves et extensions : tableaux, prises, éclairage et câblage aux normes NF C 15-100.',
     },
     {
-      icon: 'wrench' as IconName,
       title: 'Dépannage & réparation',
       description:
         'Intervention rapide pour vos pannes, courts-circuits et disjoncteurs défaillants. Diagnostic précis et réparation efficace.',
     },
     {
-      icon: 'home' as IconName,
       title: 'Rénovation électrique',
       description:
-        'Remise à neuf de votre installation : remplacement du câblage ancien, modernisation du tableau et mise en conformité complète.',
+        'Remise à neuf de votre installation : remplacement du câblage ancien, modernisation du tableau, mise en conformité complète.',
     },
     {
-      icon: 'shield' as IconName,
       title: 'Mise aux normes',
       description:
         'Vérification et mise en conformité de votre installation selon les normes en vigueur, avec diagnostic électrique détaillé.',
@@ -121,124 +137,89 @@ export const services = {
   ],
 } as const;
 
-/** Section À propos. */
+/** Section À propos. Les fragments `<span class="em">` sont rendus avec `set:html`. */
 export const about = {
+  index: '03 — PROFIL',
   label: 'À propos',
-  title: 'Un électricien passionné, à votre service',
+  title: ['Un électricien', 'passionné,', 'à votre service.'] as const,
+  emphasisLine: 1,
+  lead: 'Indépendant. Précis. Transparent.',
   paragraphs: [
-    "Je suis Fabien Auffret, électricien indépendant basé à Châtillon-sur-Loire. Passionné par mon métier, je mets un point d'honneur à réaliser un travail très soigné sur chaque chantier, de la petite intervention à la rénovation complète.",
-    "Mon approche repose sur l'écoute, la précision et la transparence. Je prends le temps de comprendre vos besoins pour vous proposer des solutions adaptées, fiables et conformes aux normes en vigueur.",
-    'Que vous soyez un particulier ou un professionnel, je vous accompagne de A à Z dans tous vos projets électriques, avec sérieux et réactivité.',
+    'Je suis Fabien Auffret, <span class="em">électricien indépendant</span> basé à Châtillon-sur-Loire. Passionné par mon métier, je mets un point d\'honneur à réaliser un travail très soigné sur chaque chantier, de la petite intervention à la rénovation complète.',
+    'Mon approche repose sur l\'<span class="em">écoute, la précision et la transparence</span>. Je prends le temps de comprendre vos besoins pour vous proposer des solutions adaptées, fiables et conformes aux normes en vigueur.',
+    'Particulier ou professionnel, je vous accompagne de A à Z dans tous vos projets électriques, avec sérieux et réactivité.',
   ],
-  stats: [
-    { value: '5,0/5', label: 'Note Google' },
-    { value: '100 %', label: 'Clients satisfaits' },
-    { value: '6j/7', label: 'Disponibilité' },
+  /** Carte d'information sous les paragraphes. */
+  infoCard: [
+    { label: 'Note Google', value: '5,0', suffix: '/ 5' },
+    { label: 'Clients satisfaits', value: '100', suffix: '%' },
+    { label: 'Disponibilité', value: '6', suffix: 'J/7' },
   ],
 } as const;
 
 /** Section « Pourquoi me choisir ». */
 export const reasons = {
+  index: '04 — ENGAGEMENTS',
   label: 'Pourquoi me choisir',
-  title: 'La tranquillité d’esprit, du devis à la finition',
+  title: ['La tranquillité, du devis', 'à la finition.'] as const,
+  emphasisLine: 1,
+  lead: 'Quatre engagements simples — tenus sur chaque chantier.',
   items: [
     {
       icon: 'check' as IconName,
       title: 'Travail soigné',
-      description: 'Des finitions impeccables et un chantier propre, sur chaque intervention.',
+      description: 'Finitions impeccables et chantier propre — sur chaque intervention.',
     },
     {
       icon: 'bolt' as IconName,
       title: 'Réactivité',
-      description: 'Une intervention rapide et une réponse à votre demande sous 24h.',
+      description: 'Intervention rapide et réponse à votre demande sous 24 h.',
     },
     {
       icon: 'shield' as IconName,
-      title: 'Conformité garantie',
-      description: 'Des installations réalisées dans le strict respect des normes électriques.',
+      title: 'Conformité',
+      description: 'Installations conformes au strict respect des normes électriques.',
     },
     {
       icon: 'star' as IconName,
       title: 'Tarifs justes',
-      description: 'Un devis gratuit, clair et transparent, sans mauvaise surprise.',
-    },
-  ],
-} as const;
-
-/**
- * Section Avis clients.
- * Les 3 premiers avis proviennent de Google. Les suivants sont des
- * exemples réalistes à remplacer par de vrais avis clients : il suffit
- * d'ajouter / modifier les entrées du tableau ci-dessous.
- */
-export const testimonials = {
-  label: 'Avis clients',
-  title: 'Ce que disent mes clients',
-  subtitle: 'La satisfaction de mes clients est ma meilleure carte de visite.',
-  reviews: [
-    {
-      name: 'Yves Mas',
-      initials: 'YM',
-      rating: 5,
-      text: 'Travail très soigné, résultat impeccable.',
-    },
-    {
-      name: 'Bertrand Rousseau',
-      initials: 'BR',
-      rating: 5,
-      text: "A été à l'écoute de mes attentes sur mon chantier d'électricité. Il est très consciencieux, avec un tarif correct en comparaison des autres devis.",
-    },
-    {
-      name: 'Michel Paul',
-      initials: 'MP',
-      rating: 5,
-      text: 'Un bon professionnel.',
-    },
-    {
-      name: 'Sophie Lemaire',
-      initials: 'SL',
-      rating: 5,
-      text: 'Intervention rapide pour une panne de tableau électrique. Diagnostic clair et réparation efficace, je recommande vivement.',
-    },
-    {
-      name: 'Julien Bernard',
-      initials: 'JB',
-      rating: 5,
-      text: "Rénovation complète de l'installation électrique de notre maison. Travail propre, dans les délais et au prix annoncé. Parfait.",
-    },
-    {
-      name: 'Catherine Petit',
-      initials: 'CP',
-      rating: 5,
-      text: 'Très professionnel et de bon conseil. Ponctuel et soigneux, il a su répondre à toutes nos questions. Merci !',
+      description: 'Un devis gratuit, clair et transparent — sans mauvaise surprise.',
     },
   ],
 } as const;
 
 /** Bandeau d'appel à l'action (section intermédiaire avec photo). */
 export const ctaBand = {
-  label: 'Un projet en tête ?',
-  title: 'Confiez vos travaux électriques à un professionnel',
+  tag: 'Un projet en tête ?',
+  title: ['Confiez vos travaux', 'électriques', 'à un professionnel.'] as const,
+  emphasisLine: 1,
   subtitle:
     "Particulier ou professionnel, bénéficiez d'un devis gratuit et de conseils adaptés à votre projet.",
 } as const;
 
 /** Section Contact. */
 export const contact = {
-  label: 'Contact',
-  title: 'Demandez votre devis gratuit',
-  subtitle:
-    "Besoin d'un électricien ? Contactez-moi pour un devis gratuit et sans engagement. Je vous réponds sous 24h.",
+  index: '05 — CONTACT',
+  label: 'Devis',
+  title: ['Demandez votre', 'devis gratuit.'] as const,
+  emphasisLine: 1,
+  lead: 'Réponse sous 24 h. Devis gratuit et sans engagement.',
   form: {
-    name: 'Votre nom complet',
-    phone: 'Votre numéro de téléphone',
-    message: 'Décrivez votre projet ou votre besoin…',
+    step: 'VOS COORDONNÉES',
+    fields: {
+      name: 'Prénom Nom',
+      phone: '07 00 00 00 00',
+      message: 'Rénovation, dépannage, installation neuve…',
+    },
     submit: 'Envoyer ma demande',
   },
 } as const;
 
 /** Zones d'intervention (communes du Loiret autour de Châtillon-sur-Loire). */
 export const serviceArea = {
+  tag: "Zones d'intervention",
+  title: ['Au cœur du', 'Loiret.'] as const,
+  emphasisLine: 1,
   primary: 'Châtillon-sur-Loire',
   towns: [
     'Briare',

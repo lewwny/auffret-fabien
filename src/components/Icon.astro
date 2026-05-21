@@ -14,24 +14,19 @@ const { name, class: className = '', filled = false, ...rest } = Astro.props;
 
 // Chaque entrée contient le contenu interne du <svg> (tracés en stroke).
 const paths: Record<string, string> = {
-  bolt: '<path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z" />',
+  bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />',
   wrench:
     '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8 6.2 21l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.8 2.8-2.7-.4-.4-2.7 2.9-2.7Z" />',
   home: '<path d="M3 10.5 12 3l9 7.5" /><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5" /><path d="M9.5 21v-6h5v6" />',
-  shield:
-    '<path d="M12 3 5 6v5c0 5 3 8.5 7 10 4-1.5 7-5 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-4" />',
-  check: '<path d="M5 12.5 10 17.5 19.5 7" />',
-  star: '<path d="M12 3.5 14.6 9l6 .9-4.3 4.2 1 6-5.3-2.8L6.4 20l1-6L3.2 9.8l6-.9L12 3.5Z" />',
+  shield: '<path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z" />',
+  check: '<path d="M20 6 9 17l-5-5" />',
+  star: '<path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />',
   phone:
-    '<path d="M6.5 3.5h3l1.5 4.5-2 1.5a13 13 0 0 0 6 6l1.5-2 4.5 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2Z" />',
-  pin: '<path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11Z" /><circle cx="12" cy="10" r="2.5" />',
-  clock: '<circle cx="12" cy="12" r="9" /><path d="M12 7v5l3.5 2" />',
+    '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z" />',
+  pin: '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z" /><circle cx="12" cy="10" r="3" />',
+  clock: '<circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />',
   mail: '<rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 6.5 8.5 7 8.5-7" />',
-  arrow: '<path d="M5 12h14" /><path d="m13 5 7 7-7 7" />',
-  menu: '<path d="M4 7h16" /><path d="M4 12h16" /><path d="M4 17h16" />',
-  close: '<path d="M6 6 18 18" /><path d="M18 6 6 18" />',
-  quote:
-    '<path d="M9 7c-2.5 1-4 3.2-4 6.5V18h5v-5H7c0-2 .8-3.5 3-4.3L9 7Zm9 0c-2.5 1-4 3.2-4 6.5V18h5v-5h-3c0-2 .8-3.5 3-4.3L18 7Z" />',
+  arrow: '<path d="M5 12h14M12 5l7 7-7 7" />',
 };
 
 const content = paths[name] ?? '';
@@ -42,7 +37,7 @@ const content = paths[name] ?? '';
   viewBox="0 0 24 24"
   fill={filled ? 'currentColor' : 'none'}
   stroke="currentColor"
-  stroke-width="1.8"
+  stroke-width="2"
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden="true"

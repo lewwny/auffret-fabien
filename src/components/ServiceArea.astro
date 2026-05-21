@@ -1,0 +1,98 @@
+---
+// Section Zones d'intervention : bande blanche avec un titre court
+// et une rangée de chips listant les communes desservies.
+import { serviceArea } from '../data/site';
+---
+
+<section class="area">
+  <div class="wrap area-inner">
+    <div>
+      <span class="tag">{serviceArea.tag}</span>
+      <h3>
+        {
+          serviceArea.title.map((line, i) => (
+            <>
+              {i === serviceArea.emphasisLine ? <span class="em-blue">{line}</span> : line}
+              {i < serviceArea.title.length - 1 ? ' ' : ''}
+            </>
+          ))
+        }
+      </h3>
+    </div>
+    <div class="area-towns">
+      <span class="chip primary"
+        ><span class="dot" aria-hidden="true"></span>{serviceArea.primary}</span
+      >
+      {
+        serviceArea.towns.map((town) => (
+          <span class="chip">
+            <span class="dot" aria-hidden="true" />
+            {town}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .area {
+    padding: 64px 0;
+    background: var(--color-paper);
+    border-top: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+  }
+  .area-inner {
+    display: grid;
+    grid-template-columns: 0.6fr 1.4fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 820px) {
+    .area-inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+  .area h3 {
+    font-size: clamp(26px, 3.4vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  .area h3 .em-blue {
+    color: var(--color-electric);
+  }
+  .area-towns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    padding: 8px 14px;
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    font-size: 13.5px;
+    background: var(--color-canvas);
+    color: var(--color-ink-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip.primary {
+    background: var(--color-electric);
+    color: white;
+    border-color: var(--color-electric);
+    font-weight: 500;
+  }
+  .chip .dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-electric);
+  }
+  .chip.primary .dot {
+    background: white;
+  }
+</style>

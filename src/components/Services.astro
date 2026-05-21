@@ -1,26 +1,124 @@
 ---
-// Section Services : cartes modernes avec icônes minimalistes.
-import Icon from './Icon.astro';
+// Section Services : liste éditoriale (lignes pleine largeur), pas de cartes.
+// Hover : la ligne respire, l'icône d'arrivée tourne de -45°.
 import SectionHeading from './SectionHeading.astro';
 import { services } from '../data/site';
 ---
 
-<section id="services" class="bg-night-50 py-20 sm:py-28">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <SectionHeading label={services.label} title={services.title} subtitle={services.subtitle} />
+<section class="section" id="services" style="padding-top: 32px;">
+  <div class="wrap">
+    <SectionHeading
+      index={services.index}
+      label={services.label}
+      title={services.title}
+      emphasisLine={services.emphasisLine}
+      lead={services.lead}
+    />
 
-    <ul class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="services reveal">
       {
-        services.items.map((service) => (
-          <li class="reveal group border-night-100 hover:border-volt-300 hover:shadow-night-900/5 flex flex-col rounded-2xl border bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-            <span class="bg-night-900 text-volt-300 group-hover:bg-volt-400 group-hover:text-night-950 flex h-14 w-14 items-center justify-center rounded-xl transition-colors duration-300">
-              <Icon name={service.icon} class="h-7 w-7" />
+        services.items.map((service, i) => (
+          <article class="service">
+            <div class="idx">
+              {String(i + 1).padStart(2, '0')} / {String(services.items.length).padStart(2, '0')}
+            </div>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            <span class="go" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
             </span>
-            <h3 class="text-night-900 mt-5 text-lg font-bold">{service.title}</h3>
-            <p class="text-night-500 mt-2 text-sm leading-relaxed">{service.description}</p>
-          </li>
+          </article>
         ))
       }
-    </ul>
+    </div>
   </div>
 </section>
+
+<style>
+  .services {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .service {
+    display: grid;
+    grid-template-columns: 100px 1fr 1.4fr auto;
+    gap: 40px;
+    align-items: center;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--color-line);
+    transition:
+      padding 0.25s ease,
+      background 0.25s ease;
+  }
+  .service:first-child {
+    border-top: 1px solid var(--color-line);
+  }
+  .service:hover {
+    padding-left: 12px;
+    padding-right: 12px;
+    background: var(--color-paper);
+  }
+  .service .idx {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-mute);
+    letter-spacing: 0.12em;
+  }
+  .service h3 {
+    font-size: clamp(24px, 2.6vw, 34px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  .service p {
+    margin: 0;
+    color: var(--color-ink-2);
+    font-size: 15.5px;
+    line-height: 1.5;
+    max-width: 50ch;
+  }
+  .service .go {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--color-line);
+    display: grid;
+    place-items: center;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    transition:
+      background 0.25s,
+      color 0.25s,
+      border-color 0.25s,
+      transform 0.25s;
+  }
+  .service:hover .go {
+    background: var(--color-electric);
+    color: white;
+    border-color: var(--color-electric);
+    transform: rotate(-45deg);
+  }
+  .service .go svg {
+    width: 16px;
+    height: 16px;
+  }
+  @media (max-width: 880px) {
+    .service {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 28px 0;
+    }
+    .service .go {
+      justify-self: start;
+    }
+  }
+</style>

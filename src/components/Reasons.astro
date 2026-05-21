@@ -1,0 +1,114 @@
+---
+// Section « Pourquoi me choisir » : grille de 4 cartes numérotées
+// avec une petite icône colorée. Hover : carte bleu pâle + relief.
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { reasons } from '../data/site';
+---
+
+<section class="section" id="engagements">
+  <div class="wrap">
+    <SectionHeading
+      index={reasons.index}
+      label={reasons.label}
+      title={reasons.title}
+      emphasisLine={reasons.emphasisLine}
+      lead={reasons.lead}
+    />
+
+    <div class="reasons reveal">
+      {
+        reasons.items.map((reason, i) => (
+          <div class="reason">
+            <div class="head">
+              <span class="num">/ {String(i + 1).padStart(2, '0')}</span>
+              <span class="ico">
+                <Icon name={reason.icon} class="reason-icon" />
+              </span>
+            </div>
+            <h3>{reason.title}</h3>
+            <p>{reason.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .reasons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 920px) {
+    .reasons {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 540px) {
+    .reasons {
+      grid-template-columns: 1fr;
+    }
+  }
+  .reason {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 26px 24px 28px;
+    transition:
+      border-color 0.25s,
+      transform 0.25s,
+      background 0.25s;
+  }
+  .reason:hover {
+    border-color: var(--color-electric);
+    transform: translateY(-3px);
+    background: var(--color-electric-soft);
+  }
+  .reason .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+  }
+  .reason .num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--color-mute);
+    letter-spacing: 0.12em;
+  }
+  .reason .ico {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--color-electric-soft);
+    color: var(--color-electric);
+    display: grid;
+    place-items: center;
+    transition:
+      background 0.25s,
+      color 0.25s;
+  }
+  .reason:hover .ico {
+    background: var(--color-electric);
+    color: white;
+  }
+  .reason :global(.reason-icon) {
+    width: 18px;
+    height: 18px;
+  }
+  .reason h3 {
+    font-size: 20px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .reason p {
+    margin: 0;
+    color: var(--color-ink-2);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+</style>

@@ -1,97 +1,147 @@
 ---
-// Section À propos : présentation avec collage photo,
-// statistiques de confiance et grille « Pourquoi me choisir ».
+// Section À propos : fond encre sombre, portrait 4:5 et paragraphes
+// avec emphases bleues + carte d'information à 3 indicateurs.
 import { Image } from 'astro:assets';
-import Icon from './Icon.astro';
 import SectionHeading from './SectionHeading.astro';
 import portraitPhoto from '../assets/photos/portrait-electricien.jpg';
-import domotiquePhoto from '../assets/photos/domotique.jpg';
-import { about, company, reasons, testimonials } from '../data/site';
+import { about } from '../data/site';
 ---
 
-<section id="a-propos" class="bg-white py-20 sm:py-28">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <div class="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-      <!-- Collage photo -->
-      <div class="relative">
-        <div class="overflow-hidden rounded-3xl shadow-xl">
-          <Image
-            src={portraitPhoto}
-            alt="Portrait de Fabien Auffret, électricien indépendant à Châtillon-sur-Loire"
-            class="aspect-[4/5] w-full object-cover"
-            widths={[400, 700, 1000]}
-            sizes="(min-width: 1024px) 45vw, 90vw"
-          />
-        </div>
+<section class="section about on-ink" id="a-propos">
+  <div class="wrap">
+    <SectionHeading
+      index={about.index}
+      label={about.label}
+      title={about.title}
+      emphasisLine={about.emphasisLine}
+      lead={about.lead}
+    />
 
-        <!-- Photo secondaire superposée -->
-        <div
-          class="absolute -right-4 -bottom-8 hidden w-44 overflow-hidden rounded-2xl border-4 border-white shadow-lg sm:block lg:w-52"
-        >
-          <Image
-            src={domotiquePhoto}
-            alt="Installation d'un thermostat connecté par l'électricien"
-            class="aspect-square w-full object-cover"
-            widths={[200, 416]}
-            sizes="208px"
-          />
-        </div>
-
-        <!-- Badge note flottant -->
-        <div
-          class="bg-night-950 absolute -top-5 -left-4 flex items-center gap-2.5 rounded-2xl px-4 py-3 shadow-lg"
-        >
-          <Icon name="star" class="text-volt-400 h-6 w-6" filled />
-          <div class="leading-tight">
-            <span class="block text-lg font-extrabold text-white">{company.rating.value}/5</span>
-            <span class="text-night-300 block text-xs"
-              >{testimonials.reviews.length} avis clients</span
-            >
-          </div>
-        </div>
+    <div class="about-grid reveal">
+      <div class="about-portrait">
+        <Image
+          src={portraitPhoto}
+          alt="Portrait de Fabien Auffret, électricien indépendant à Châtillon-sur-Loire"
+          class="portrait-img"
+          widths={[400, 700, 1000]}
+          sizes="(min-width: 980px) 42vw, 90vw"
+        />
+        <span class="corner-mark">[ PORTRAIT · 4:5 ]</span>
+        <span class="corner-mark br">N° 01</span>
       </div>
 
-      <!-- Présentation -->
       <div>
-        <SectionHeading label={about.label} title={about.title} align="left" />
-        <div class="mt-6 flex flex-col gap-4">
-          {about.paragraphs.map((text) => <p class="text-night-600 leading-relaxed">{text}</p>)}
+        <div class="about-paragraphs">
+          {about.paragraphs.map((text) => <p set:html={text} />)}
         </div>
-
-        <dl class="border-night-100 mt-8 grid grid-cols-3 gap-4 border-t pt-8">
+        <div class="info-card">
           {
-            about.stats.map((stat) => (
-              <div>
-                <dt class="sr-only">{stat.label}</dt>
-                <dd>
-                  <span class="text-night-900 block text-2xl font-extrabold sm:text-3xl">
-                    {stat.value}
-                  </span>
-                  <span class="text-night-500 mt-1 block text-xs font-medium">{stat.label}</span>
-                </dd>
+            about.infoCard.map((item) => (
+              <div class="item">
+                <div class="l">{item.label}</div>
+                <div class="v">
+                  <span class="em-blue">{item.value}</span> {item.suffix}
+                </div>
               </div>
             ))
           }
-        </dl>
+        </div>
       </div>
-    </div>
-
-    <!-- Pourquoi me choisir -->
-    <div class="mt-24 sm:mt-28">
-      <SectionHeading label={reasons.label} title={reasons.title} />
-      <ul class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          reasons.items.map((reason) => (
-            <li class="reveal border-night-100 bg-night-50 flex flex-col items-center rounded-2xl border p-6 text-center transition-shadow hover:shadow-md">
-              <span class="bg-volt-400/15 text-volt-600 flex h-12 w-12 items-center justify-center rounded-full">
-                <Icon name={reason.icon} class="h-6 w-6" />
-              </span>
-              <h3 class="text-night-900 mt-4 text-base font-bold">{reason.title}</h3>
-              <p class="text-night-500 mt-2 text-sm leading-relaxed">{reason.description}</p>
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </div>
 </section>
+
+<style>
+  .about {
+    background: var(--color-ink);
+    color: var(--color-on-ink);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+  }
+  @media (max-width: 980px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .about-portrait {
+    aspect-ratio: 4/5;
+    background: #060709;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid color-mix(in oklab, var(--color-on-ink) 18%, transparent);
+  }
+  .portrait-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .corner-mark {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: color-mix(in oklab, var(--color-electric-hi) 70%, transparent);
+    background: color-mix(in oklab, var(--color-ink) 70%, transparent);
+    padding: 4px 8px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+  }
+  .corner-mark.br {
+    top: auto;
+    left: auto;
+    bottom: 18px;
+    right: 18px;
+  }
+
+  .about-paragraphs p {
+    font-size: 17px;
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-on-ink) 88%, transparent);
+    margin: 0 0 18px;
+    max-width: 56ch;
+  }
+  /* `.em` est utilisé via set:html depuis les données. */
+  .about-paragraphs :global(.em) {
+    color: var(--color-electric-hi);
+    font-weight: 500;
+  }
+
+  .info-card {
+    margin-top: 32px;
+    padding: 22px 24px;
+    background: color-mix(in oklab, var(--color-ink) 90%, var(--color-on-ink) 10%);
+    border: 1px solid color-mix(in oklab, var(--color-on-ink) 18%, transparent);
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 640px) {
+    .info-card {
+      grid-template-columns: 1fr;
+    }
+  }
+  .info-card .item .l {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-on-ink) 55%, transparent);
+    margin-bottom: 8px;
+  }
+  .info-card .item .v {
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .info-card .item .v .em-blue {
+    color: var(--color-electric-hi);
+  }
+</style>

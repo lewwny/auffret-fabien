@@ -1,106 +1,92 @@
 ---
-// Section Contact : formulaire prêt à brancher avec animation de
-// confirmation, coordonnées, horaires et carte Google Maps intégrée.
+// Section Contact : formulaire éditorial (labels monospace) avec
+// animation de confirmation à l'envoi. Aside : cartes coordonnées + carte.
 import Icon from './Icon.astro';
 import SectionHeading from './SectionHeading.astro';
 import { company, contact, openingHours } from '../data/site';
 
 const f = contact.form;
-const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.locality}`;
+const shortAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.locality}`;
 ---
 
-<section id="contact" class="bg-night-50 py-20 sm:py-28">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <SectionHeading label={contact.label} title={contact.title} subtitle={contact.subtitle} />
+<section class="section" id="contact">
+  <div class="wrap">
+    <SectionHeading
+      index={contact.index}
+      label={contact.label}
+      title={contact.title}
+      emphasisLine={contact.emphasisLine}
+      lead={contact.lead}
+    />
 
-    <div class="mt-14 grid gap-8 lg:grid-cols-2">
-      <!-- Carte formulaire (contient le formulaire ET l'écran de confirmation) -->
-      <div
-        class="border-night-100 relative overflow-hidden rounded-2xl border bg-white p-6 shadow-sm sm:p-8"
-      >
+    <div class="contact-grid">
+      <!-- Formulaire devis -->
+      <div class="devis-wrap reveal">
         {
           /*
-          Formulaire prêt à être branché.
-          Pour un envoi réel, renseignez l'attribut `action` avec un service
-          de traitement de formulaire (Formspree, Netlify Forms, Web3Forms…).
-          Le script en bas de fichier intercepte l'envoi pour afficher
-          l'animation de confirmation ; retirez-le si le backend gère la
-          redirection lui-même.
+          Formulaire prêt à brancher : renseignez `action` avec un service
+          (Formspree, Netlify Forms…). Le script en bas du fichier intercepte
+          l'envoi pour jouer l'animation de confirmation.
         */
         }
-        <form action="#" method="post" class="flex flex-col gap-5" data-contact-form novalidate>
-          <div>
-            <label for="name" class="text-night-800 mb-1.5 block text-sm font-semibold">
-              Nom complet
-            </label>
+        <form class="devis" data-contact-form novalidate>
+          <div class="form-head">
+            <span class="step"><strong>01</strong> / 02 — {f.step}</span>
+            <span class="tag">RÉF. {company.ref}</span>
+          </div>
+
+          <div class="field">
+            <label for="f-nom">Nom complet</label>
             <input
-              type="text"
-              id="name"
+              id="f-nom"
               name="name"
+              type="text"
+              placeholder={f.fields.name}
               required
               autocomplete="name"
-              placeholder={f.name}
-              class="border-night-200 text-night-900 placeholder:text-night-400 focus:border-volt-400 w-full rounded-lg border bg-white px-4 py-3 transition-colors"
             />
           </div>
-          <div>
-            <label for="phone" class="text-night-800 mb-1.5 block text-sm font-semibold">
-              Téléphone
-            </label>
+          <div class="field">
+            <label for="f-tel">Téléphone</label>
             <input
-              type="tel"
-              id="phone"
+              id="f-tel"
               name="phone"
+              type="tel"
+              placeholder={f.fields.phone}
               required
               autocomplete="tel"
-              placeholder={f.phone}
-              class="border-night-200 text-night-900 placeholder:text-night-400 focus:border-volt-400 w-full rounded-lg border bg-white px-4 py-3 transition-colors"
             />
           </div>
-          <div>
-            <label for="message" class="text-night-800 mb-1.5 block text-sm font-semibold">
-              Votre projet
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              required
-              placeholder={f.message}
-              class="border-night-200 text-night-900 placeholder:text-night-400 focus:border-volt-400 w-full resize-y rounded-lg border bg-white px-4 py-3 transition-colors"
-            ></textarea>
+          <div class="field">
+            <label for="f-msg">Décrivez votre projet</label>
+            <textarea id="f-msg" name="message" placeholder={f.fields.message} required></textarea>
           </div>
-          <button
-            type="submit"
-            class="bg-volt-400 text-night-950 hover:bg-volt-300 inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-base font-bold shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
-            data-submit-btn
-          >
-            <span data-btn-label class="inline-flex items-center gap-2">
-              {f.submit}
-              <Icon name="arrow" class="h-5 w-5" />
-            </span>
-            <span
-              data-btn-spinner
-              class="border-night-950/30 border-t-night-950 hidden h-5 w-5 rounded-full border-2"
-            ></span>
-          </button>
-          <p class="text-night-400 text-center text-xs">
-            Réponse sous 24h — devis gratuit et sans engagement.
-          </p>
+
+          <div class="submit-row">
+            <button type="submit" class="btn btn-primary" data-submit-btn>
+              <span data-btn-label class="inline-row">
+                {f.submit}
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                  stroke-linecap="round"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </span>
+              <span class="spinner" data-btn-spinner aria-hidden="true"></span>
+            </button>
+            <span class="tag">Réponse · sous 24 h</span>
+          </div>
         </form>
 
-        <!-- Écran de confirmation animé (affiché après l'envoi) -->
-        <div
-          class="absolute inset-0 hidden flex-col items-center justify-center bg-white p-8 text-center"
-          data-success
-          role="status"
-          aria-live="polite"
-        >
-          <span
-            class="success-badge bg-volt-400/15 flex h-20 w-20 items-center justify-center rounded-full"
-          >
+        <!-- Écran de confirmation animé -->
+        <div class="success" data-success role="status" aria-live="polite" hidden>
+          <span class="success-badge">
             <svg
-              class="checkmark h-11 w-11"
+              class="checkmark"
               viewBox="0 0 52 52"
               fill="none"
               stroke="currentColor"
@@ -109,89 +95,65 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
               stroke-linejoin="round"
               aria-hidden="true"
             >
-              <path class="checkmark-check text-volt-600" d="M14 27l8 8 17-17"></path>
+              <path class="checkmark-check" d="M14 27l8 8 17-17"></path>
             </svg>
           </span>
-          <h3 class="success-text text-night-900 mt-6 text-2xl font-extrabold">
-            Demande envoyée !
-          </h3>
-          <p class="success-text text-night-500 mt-2 max-w-xs text-sm leading-relaxed">
-            Merci pour votre message. Je vous recontacte sous 24h pour votre devis gratuit.
+          <h3 class="success-text">Demande envoyée.</h3>
+          <p class="success-text">
+            Merci pour votre message. Je vous recontacte sous 24 h pour votre devis gratuit.
           </p>
-          <button
-            type="button"
-            class="success-text border-night-200 text-night-700 hover:border-volt-400 hover:text-night-900 mt-6 inline-flex items-center gap-2 rounded-xl border px-5 py-2.5 text-sm font-semibold transition-colors"
-            data-reset
-          >
+          <button type="button" class="btn btn-ghost success-text" data-reset>
             Envoyer une autre demande
           </button>
         </div>
       </div>
 
-      <!-- Coordonnées + carte -->
-      <div class="flex flex-col gap-6">
-        <ul class="grid gap-4 sm:grid-cols-2">
-          <li class="border-night-100 flex items-start gap-3 rounded-2xl border bg-white p-5">
-            <span
-              class="bg-volt-400/15 text-volt-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-            >
-              <Icon name="phone" class="h-5 w-5" />
-            </span>
-            <div>
-              <p class="text-night-400 text-xs font-semibold tracking-wide uppercase">Téléphone</p>
-              <a
-                href={company.phoneLink}
-                class="text-night-900 hover:text-volt-600 text-sm font-bold"
-              >
-                {company.phoneDisplay}
-              </a>
-            </div>
-          </li>
-          <li class="border-night-100 flex items-start gap-3 rounded-2xl border bg-white p-5">
-            <span
-              class="bg-volt-400/15 text-volt-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-            >
-              <Icon name="clock" class="h-5 w-5" />
-            </span>
-            <div>
-              <p class="text-night-400 text-xs font-semibold tracking-wide uppercase">Horaires</p>
-              <p class="text-night-700 text-sm font-medium">{openingHours.display}</p>
-              <p class="text-night-500 text-sm">{openingHours.closed}</p>
-            </div>
-          </li>
-          <li
-            class="border-night-100 flex items-start gap-3 rounded-2xl border bg-white p-5 sm:col-span-2"
-          >
-            <span
-              class="bg-volt-400/15 text-volt-600 flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
-            >
-              <Icon name="pin" class="h-5 w-5" />
-            </span>
-            <div>
-              <p class="text-night-400 text-xs font-semibold tracking-wide uppercase">Adresse</p>
-              <p class="text-night-700 text-sm font-medium">{fullAddress}</p>
-            </div>
-          </li>
-        </ul>
-
-        <!-- Carte Google Maps (chargement différé) -->
-        <div class="border-night-100 overflow-hidden rounded-2xl border shadow-sm">
-          <iframe
-            src={company.maps.embed}
-            title={`Localisation de ${company.fullName} à ${company.address.locality}`}
-            width="100%"
-            height="300"
-            style="border:0;display:block;"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- Aside : coordonnées + carte -->
+      <aside class="contact-aside reveal">
+        <a class="contact-card" href={company.phoneLink}>
+          <span class="ico"><Icon name="phone" class="card-icon" /></span>
+          <div>
+            <div class="lbl">Téléphone</div>
+            <div class="val">{company.phoneDisplay}</div>
+            <div class="sub">Appel direct · {openingHours.short}</div>
+          </div>
+          <span class="arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="m7 17 10-10M17 7H8m9 0v9"></path>
+            </svg>
+          </span>
+        </a>
+        <div class="contact-card">
+          <span class="ico"><Icon name="pin" class="card-icon" /></span>
+          <div>
+            <div class="lbl">Adresse</div>
+            <div class="val">{shortAddress}</div>
+            <div class="sub">{company.address.region} · France</div>
+          </div>
+          <span class="arrow"></span>
         </div>
-      </div>
+        <div class="contact-card">
+          <span class="ico"><Icon name="clock" class="card-icon" /></span>
+          <div>
+            <div class="lbl">Horaires</div>
+            <div class="val">{openingHours.display}</div>
+            <div class="sub">{openingHours.closed}</div>
+          </div>
+          <span class="arrow"></span>
+        </div>
+        <div class="map-frame">
+          <iframe
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src={company.maps.embed}
+            title={`Carte — ${company.address.locality}`}></iframe>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
 <script>
-  // Intercepte l'envoi du formulaire pour jouer l'animation de confirmation.
   const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   const success = document.querySelector<HTMLElement>('[data-success]');
   const submitBtn = document.querySelector<HTMLButtonElement>('[data-submit-btn]');
@@ -199,67 +161,208 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
   const btnSpinner = document.querySelector<HTMLElement>('[data-btn-spinner]');
   const resetBtn = document.querySelector<HTMLButtonElement>('[data-reset]');
 
-  const showSuccess = () => {
-    // `invisible` (et non `hidden`) : le formulaire garde sa hauteur,
-    // l'écran de confirmation se superpose donc parfaitement.
-    form?.classList.add('invisible');
-    success?.classList.remove('hidden');
-    success?.classList.add('flex');
-  };
-
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
-
-    // Validation native avant l'animation.
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
 
-    // État « envoi en cours » sur le bouton.
     if (submitBtn) submitBtn.disabled = true;
-    btnLabel?.classList.add('hidden');
-    btnSpinner?.classList.remove('hidden');
-    btnSpinner?.classList.add('inline-block', 'animate-spin');
+    btnLabel?.classList.add('is-hidden');
+    btnSpinner?.classList.add('is-visible');
 
-    // Courte temporisation pour simuler l'envoi, puis confirmation.
-    window.setTimeout(showSuccess, 750);
+    window.setTimeout(() => {
+      form.classList.add('is-hidden');
+      success?.removeAttribute('hidden');
+    }, 750);
   });
 
-  // Permet de renvoyer une demande.
   resetBtn?.addEventListener('click', () => {
-    success?.classList.add('hidden');
-    success?.classList.remove('flex');
-    form?.classList.remove('invisible');
+    form?.classList.remove('is-hidden');
+    success?.setAttribute('hidden', '');
     form?.reset();
     if (submitBtn) submitBtn.disabled = false;
-    btnLabel?.classList.remove('hidden');
-    btnSpinner?.classList.add('hidden');
-    btnSpinner?.classList.remove('inline-block', 'animate-spin');
+    btnLabel?.classList.remove('is-hidden');
+    btnSpinner?.classList.remove('is-visible');
   });
 </script>
 
 <style>
-  /* Pastille de succès : apparition avec rebond. */
-  [data-success]:not(.hidden) .success-badge {
-    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
   }
 
-  /* Tracé progressif de la coche. */
+  .devis-wrap {
+    position: relative;
+  }
+
+  /* ── Formulaire ────────────────────────────────────────── */
+  .devis {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .devis.is-hidden {
+    display: none;
+  }
+  .form-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-line);
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .form-head .step {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--color-mute);
+    text-transform: uppercase;
+  }
+  .form-head .step strong {
+    color: var(--color-electric);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .field input,
+  .field textarea {
+    background: var(--color-canvas);
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    padding: 13px 14px;
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    outline: none;
+    transition:
+      border-color 0.2s,
+      background 0.2s;
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: color-mix(in oklab, var(--color-ink) 35%, transparent);
+  }
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--color-electric);
+    background: var(--color-paper);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+  .submit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 6px;
+  }
+  .inline-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .is-hidden {
+    display: none;
+  }
+  .spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: white;
+    animation: spin 0.7s linear infinite;
+  }
+  .spinner.is-visible {
+    display: inline-block;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ── Confirmation animée ───────────────────────────────── */
+  .success {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    padding: 56px 28px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .success[hidden] {
+    display: none;
+  }
+  .success-badge {
+    display: grid;
+    place-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--color-electric-soft);
+    color: var(--color-electric);
+    animation: pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .checkmark {
+    width: 44px;
+    height: 44px;
+  }
   .checkmark-check {
     stroke-dasharray: 48;
     stroke-dashoffset: 48;
-  }
-  [data-success]:not(.hidden) .checkmark-check {
     animation: draw 0.45s 0.35s ease-out forwards;
   }
-
-  /* Apparition en fondu du texte de confirmation. */
-  [data-success]:not(.hidden) .success-text {
+  .success h3 {
+    font-size: 26px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    margin: 0;
+  }
+  .success p {
+    color: var(--color-ink-2);
+    font-size: 15px;
+    line-height: 1.5;
+    max-width: 38ch;
+    margin: 0;
+  }
+  .success-text {
     opacity: 0;
     animation: fade-up 0.5s 0.5s ease-out forwards;
   }
-
   @keyframes pop {
     0% {
       transform: scale(0);
@@ -270,13 +373,11 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
       opacity: 1;
     }
   }
-
   @keyframes draw {
     to {
       stroke-dashoffset: 0;
     }
   }
-
   @keyframes fade-up {
     from {
       opacity: 0;
@@ -287,18 +388,91 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
       transform: translateY(0);
     }
   }
-
   @media (prefers-reduced-motion: reduce) {
-    [data-success]:not(.hidden) .success-badge,
-    [data-success]:not(.hidden) .checkmark-check,
-    [data-success]:not(.hidden) .success-text {
+    .success-badge,
+    .checkmark-check,
+    .success-text {
       animation: none;
     }
     .checkmark-check {
       stroke-dashoffset: 0;
     }
-    [data-success]:not(.hidden) .success-text {
+    .success-text {
       opacity: 1;
     }
+  }
+
+  /* ── Aside : coordonnées + carte ───────────────────────── */
+  .contact-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .contact-card {
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    background: var(--color-paper);
+    padding: 20px 22px;
+    display: grid;
+    grid-template-columns: 38px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.25s;
+  }
+  .contact-card:hover {
+    border-color: var(--color-electric);
+  }
+  .contact-card .ico {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: var(--color-electric-soft);
+    color: var(--color-electric);
+    display: grid;
+    place-items: center;
+  }
+  .contact-card :global(.card-icon) {
+    width: 16px;
+    height: 16px;
+  }
+  .contact-card .lbl {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+    margin-bottom: 4px;
+  }
+  .contact-card .val {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .contact-card .sub {
+    font-size: 13px;
+    color: var(--color-ink-2);
+    margin-top: 2px;
+  }
+  .contact-card .arrow {
+    color: var(--color-mute);
+  }
+  .contact-card .arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .map-frame {
+    height: 240px;
+    border: 1px solid var(--color-line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .map-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
   }
 </style>
