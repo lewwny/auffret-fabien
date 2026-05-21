@@ -1,68 +1,237 @@
 ---
-// Page Mentions légales — obligatoire pour un site professionnel en France.
-// Les champs entre crochets [ ] sont à compléter par l'exploitant du site.
+// Page Mentions légales & Politique de confidentialité.
+// Les champs entre crochets [ ] sont à compléter par l'exploitant du site
+// (e-mail professionnel, SIRET, hébergeur définitif).
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { company } from '../data/site';
 
-const fullAddress = `${company.address.street}, ${company.address.postalCode} ${company.address.locality}`;
+const title = `Mentions légales & Politique de confidentialité — ${company.fullName}`;
+const description = `Mentions légales et politique de confidentialité du site ${company.fullName}, ${company.address.locality} (${company.address.regionCode}).`;
+const fullAddress = `${company.address.extended}, ${company.address.street}, ${company.address.postalCode} ${company.address.locality}`;
 ---
 
-<Layout
-  title={`Mentions légales | ${company.fullName}`}
-  description={`Mentions légales du site de ${company.fullName}, électricien à ${company.address.locality}.`}
->
+<Layout title={title} description={description}>
   <Header />
 
   <main class="legal-main">
     <article class="wrap legal">
-      <a href="/" class="back-link">← Retour à l'accueil</a>
-      <h1 class="h-section legal-title">Mentions <span class="em-blue">légales.</span></h1>
+      <a href="/" class="back-link">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Retour au site
+      </a>
 
-      <section>
-        <h2>Éditeur du site</h2>
-        <p>
-          {company.fullName}<br />
-          Adresse : {fullAddress}<br />
-          Téléphone : {company.phoneDisplay}<br />
-          SIRET : [à compléter]<br />
-          Numéro de TVA intracommunautaire : [à compléter]
-        </p>
-      </section>
+      <!-- ── TABLE DES MATIÈRES ── -->
+      <nav class="toc" aria-label="Sommaire">
+        <p class="toc-title">Sommaire</p>
+        <ol>
+          <li><a href="#editeur">Éditeur du site</a></li>
+          <li><a href="#directeur">Directeur de la publication</a></li>
+          <li><a href="#hebergement">Hébergement</a></li>
+          <li><a href="#conception">Conception et réalisation</a></li>
+          <li><a href="#propriete">Propriété intellectuelle</a></li>
+          <li><a href="#responsabilite">Limitation de responsabilité</a></li>
+          <li><a href="#donnees">Protection des données personnelles (RGPD)</a></li>
+          <li><a href="#cookies">Cookies</a></li>
+          <li><a href="#droit">Droit applicable</a></li>
+        </ol>
+      </nav>
 
-      <section>
-        <h2>Directeur de la publication</h2>
-        <p>{company.name}</p>
-      </section>
+      <h1 class="h-section legal-title">
+        Mentions <span class="em-blue">légales.</span>
+      </h1>
+      <p class="legal-meta">Dernière mise à jour : mai 2026</p>
 
-      <section>
-        <h2>Hébergement</h2>
-        <p>
-          Le site est hébergé par : [nom de l'hébergeur]<br />
-          [adresse de l'hébergeur]
-        </p>
-      </section>
+      <div class="legal-body">
+        <!-- 1 -->
+        <section id="editeur">
+          <h2>1. Éditeur du site</h2>
+          <p>
+            Ce site est édité par :<br /><br />
+            <strong>{company.fullName}</strong><br />
+            Entreprise individuelle représentée par <strong>{company.name}</strong><br />
+            Siège social : {fullAddress}<br />
+            SIRET : <strong>[à compléter]</strong><br />
+            Téléphone : <a href={company.phoneLink}>{company.phoneDisplay}</a><br />
+            E-mail : <strong>[adresse e-mail professionnelle à compléter]</strong>
+          </p>
+        </section>
 
-      <section>
-        <h2>Propriété intellectuelle</h2>
-        <p>
-          L'ensemble des contenus présents sur ce site (textes, images, logo) est protégé par le
-          droit d'auteur. Toute reproduction, même partielle, est interdite sans autorisation
-          préalable.
-        </p>
-      </section>
+        <!-- 2 -->
+        <section id="directeur">
+          <h2>2. Directeur de la publication</h2>
+          <p>
+            <strong>{company.name}</strong>, en qualité de gérant de l'entreprise individuelle {
+              company.fullName
+            }.
+          </p>
+        </section>
 
-      <section>
-        <h2>Données personnelles</h2>
-        <p>
-          Les informations transmises via le formulaire de contact sont utilisées uniquement pour
-          répondre à votre demande. Conformément au RGPD, vous disposez d'un droit d'accès, de
-          rectification et de suppression de vos données en contactant {company.fullName} au {
-            company.phoneDisplay
-          }.
-        </p>
-      </section>
+        <!-- 3 -->
+        <section id="hebergement">
+          <h2>3. Hébergement</h2>
+          <p>
+            Ce site est hébergé par :<br /><br />
+            <strong>Netlify, Inc.</strong><br />
+            512 2nd Street, Suite 200<br />
+            San Francisco, CA 94107 — États-Unis<br />
+            <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer"
+              >www.netlify.com</a
+            >
+          </p>
+        </section>
+
+        <!-- 4 -->
+        <section id="conception">
+          <h2>4. Conception et réalisation</h2>
+          <p>
+            Site conçu, développé et maintenu par :<br /><br />
+            <strong>Leny Garcia</strong> — Développeur web indépendant<br />
+            Micro-entreprise — SIRET : <strong>938 506 565 00010</strong><br />
+            22 ter route d'Arpajon, 91340 Ollainville, France<br />
+            E-mail : <a href="mailto:lenygarcia0302@gmail.com">lenygarcia0302@gmail.com</a><br />
+            Site : <a href="https://garcialeny.com" target="_blank" rel="noopener noreferrer"
+              >garcialeny.com</a
+            >
+          </p>
+        </section>
+
+        <!-- 5 -->
+        <section id="propriete">
+          <h2>5. Propriété intellectuelle</h2>
+          <p>
+            L'ensemble des contenus présents sur ce site (textes, photographies, graphismes, logo,
+            icônes, mise en page) est la propriété de {company.fullName} ou de ses prestataires,
+            et est protégé par les lois françaises et internationales relatives à la propriété
+            intellectuelle.
+          </p>
+          <p>
+            Toute reproduction, représentation, modification ou publication de tout ou partie des
+            éléments du site, sans autorisation écrite préalable de {company.fullName}, est
+            strictement interdite et constituerait une contrefaçon sanctionnée par les articles
+            L.335-2 et suivants du Code de la propriété intellectuelle.
+          </p>
+        </section>
+
+        <!-- 6 -->
+        <section id="responsabilite">
+          <h2>6. Limitation de responsabilité</h2>
+          <p>
+            {company.fullName} s'efforce d'assurer l'exactitude et la mise à jour des informations
+            diffusées sur ce site, mais ne peut garantir l'exhaustivité ou l'absence d'erreur de
+            ces informations. L'éditeur décline toute responsabilité pour tout dommage direct ou
+            indirect résultant de l'utilisation de ce site ou des informations qu'il contient.
+          </p>
+          <p>
+            L'accès au site peut être suspendu à tout moment, sans préavis, notamment pour des
+            raisons de maintenance.
+          </p>
+        </section>
+
+        <!-- 7 -->
+        <section id="donnees">
+          <h2>7. Protection des données personnelles (RGPD)</h2>
+
+          <h3>Responsable du traitement</h3>
+          <p>
+            Le responsable du traitement des données collectées via ce site est :<br />
+            <strong>{company.name} — {company.fullName}</strong><br />
+            Contact : <a href={company.phoneLink}>{company.phoneDisplay}</a> —
+            <strong>[adresse e-mail professionnelle à compléter]</strong>
+          </p>
+
+          <h3>Données collectées</h3>
+          <p>
+            Le formulaire de contact collecte les informations suivantes :
+            <strong>nom complet, numéro de téléphone et message</strong>. Ces données sont
+            collectées dans le seul but de répondre à votre demande de devis ou de renseignement.
+          </p>
+
+          <h3>Base légale du traitement</h3>
+          <p>
+            Le traitement est fondé sur votre <strong>consentement explicite</strong> (article 6.1.a
+            du RGPD), matérialisé par l'envoi volontaire du formulaire.
+          </p>
+
+          <h3>Destinataires des données</h3>
+          <p>
+            Les données sont transmises exclusivement à {company.name} afin de traiter votre
+            demande. Elles ne sont en aucun cas cédées, vendues, louées ou communiquées à des
+            tiers à des fins commerciales.
+          </p>
+          <p>
+            Le service de traitement des formulaires de l'hébergeur et le service d'envoi
+            d'e-mails utilisé pour l'acheminement des messages sont des sous-traitants techniques
+            soumis à des obligations contractuelles de confidentialité.
+          </p>
+
+          <h3>Durée de conservation</h3>
+          <p>
+            Les données issues du formulaire de contact sont conservées pour une durée maximale de
+            <strong>24 mois</strong> à compter de la dernière interaction, puis supprimées.
+          </p>
+
+          <h3>Vos droits</h3>
+          <p>
+            Conformément au RGPD (UE 2016/679) et à la loi Informatique et Libertés du 6 janvier
+            1978 modifiée, vous disposez des droits suivants :
+          </p>
+          <ul>
+            <li>Droit d'accès à vos données</li>
+            <li>Droit de rectification</li>
+            <li>Droit à l'effacement (« droit à l'oubli »)</li>
+            <li>Droit à la limitation du traitement</li>
+            <li>Droit à la portabilité</li>
+            <li>Droit d'opposition</li>
+            <li>Droit de retirer votre consentement à tout moment</li>
+          </ul>
+          <p>
+            Pour exercer ces droits, contactez {company.name} au
+            <a href={company.phoneLink}>{company.phoneDisplay}</a>
+            (ou par e-mail à l'adresse professionnelle indiquée ci-dessus, une fois renseignée).
+            Une réponse vous sera apportée dans un délai d'un mois maximum.
+          </p>
+          <p>
+            Vous avez également le droit d'introduire une réclamation auprès de la
+            <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL</a>
+            (Commission Nationale de l'Informatique et des Libertés — 3 Place de Fontenoy, 75007
+            Paris).
+          </p>
+        </section>
+
+        <!-- 8 -->
+        <section id="cookies">
+          <h2>8. Cookies</h2>
+          <p>
+            Ce site <strong>n'utilise aucun cookie</strong> publicitaire, de suivi ou d'analyse
+            statistique. Aucun cookie tiers n'est déposé lors de votre navigation. Aucune bannière
+            de consentement n'est donc requise.
+          </p>
+        </section>
+
+        <!-- 9 -->
+        <section id="droit">
+          <h2>9. Droit applicable et juridiction compétente</h2>
+          <p>
+            Les présentes mentions légales sont régies par le droit français. En cas de litige,
+            et après échec de toute tentative de résolution amiable, les tribunaux compétents
+            seront ceux du ressort du siège social de l'éditeur.
+          </p>
+        </section>
+      </div>
     </article>
   </main>
 
@@ -77,42 +246,137 @@ const fullAddress = `${company.address.street}, ${company.address.postalCode} ${
   .legal {
     max-width: 760px;
   }
+
+  /* ── Lien retour ────────────────────────────────────────── */
   .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-electric);
     text-decoration: none;
+    margin-bottom: 40px;
+    transition: color 0.2s;
   }
   .back-link:hover {
     color: var(--color-ink);
   }
-  .legal-title {
-    margin: 24px 0 48px;
-    max-width: 18ch;
+  .back-link svg {
+    transition: transform 0.2s;
   }
-  .legal section {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--color-line);
+  .back-link:hover svg {
+    transform: translateX(-3px);
   }
-  .legal section:last-child {
-    border-bottom: none;
+
+  /* ── Sommaire (TOC) ─────────────────────────────────────── */
+  .toc {
+    margin-bottom: 48px;
+    padding: 22px 26px;
+    background: var(--color-stone);
+    border: 1px solid var(--color-line);
+    border-radius: 16px;
   }
-  .legal h2 {
+  .toc-title {
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-mute);
-    margin-bottom: 12px;
+    margin: 0 0 14px;
     font-weight: 500;
   }
-  .legal p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-ink-2);
+  .toc ol {
     margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    color: var(--color-ink-2);
+    font-size: 14.5px;
+  }
+  .toc a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .toc a:hover {
+    color: var(--color-electric);
+  }
+
+  /* ── Titre + méta ───────────────────────────────────────── */
+  .legal-title {
+    max-width: 18ch;
+    margin-bottom: 8px;
+  }
+  .legal-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+    margin: 0 0 64px;
+  }
+
+  /* ── Corps des sections ─────────────────────────────────── */
+  .legal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    color: var(--color-ink-2);
+    line-height: 1.65;
+  }
+  .legal-body section {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .legal-body section:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  .legal-body h2 {
+    font-size: clamp(22px, 2.4vw, 28px);
+    color: var(--color-ink);
+    margin: 0 0 18px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  .legal-body h3 {
+    font-size: 15px;
+    color: var(--color-ink);
+    margin: 28px 0 10px;
+    font-weight: 600;
+  }
+  .legal-body p {
+    margin: 0 0 14px;
+    font-size: 15.5px;
+  }
+  .legal-body p:last-child {
+    margin-bottom: 0;
+  }
+  .legal-body strong {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .legal-body a {
+    color: var(--color-electric);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .legal-body a:hover {
+    text-decoration: underline;
+  }
+  .legal-body ul {
+    margin: 8px 0 14px;
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 15.5px;
+  }
+  .legal-body ul li {
+    list-style: disc;
   }
 </style>
