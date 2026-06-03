@@ -8,18 +8,23 @@
 /** Coordonnées et informations légales de l'entreprise. */
 export const company = {
   name: 'Fabien Auffret',
-  role: 'Électricien',
+  role: 'Électricien · Plombier',
+  /** Ligne affichée sous le logo dans l'en-tête. */
+  metaLine: 'Électricité · Plomberie · Climatisation',
   /** Nom complet utilisé pour le SEO et les données structurées. */
-  fullName: 'Fabien Auffret — Électricien',
+  fullName: 'Fabien Auffret — Électricien & Plombier',
   /** URL canonique du site en production. */
-  url: 'https://www.fabien-auffret.fr',
+  url: 'https://fabienauffret.fr',
 
-  phoneDisplay: '07 83 10 00 12',
-  phoneLink: 'tel:+33783100012',
+  phoneDisplay: '06 26 20 48 19',
+  phoneLink: 'tel:+33626204819',
+
+  email: 'fabienauffret45@outlook.fr',
+  emailLink: 'mailto:fabienauffret45@outlook.fr',
 
   address: {
-    street: 'Rue du Port',
-    extended: 'Bateau Larissa',
+    extended: 'Bateau « Rescula »',
+    street: 'Rue Port de Plaisance',
     postalCode: '45360',
     locality: 'Châtillon-sur-Loire',
     region: 'Loiret',
@@ -30,7 +35,16 @@ export const company = {
   /** Coordonnées géographiques pour le SEO local (JSON-LD). */
   geo: { latitude: 47.5933, longitude: 2.7575 },
 
-  /** Note moyenne issue de Google (7 avis réels — donnée vérifiable). */
+  /** Rayon d'intervention en kilomètres autour du siège. */
+  radiusKm: 50,
+
+  /** Identifiants légaux. */
+  siren: '880387949',
+  siret: '88038794900014',
+  sirenDisplay: '880 387 949',
+  siretDisplay: '880 387 949 00014',
+
+  /** Note moyenne issue de Google (3 avis réels — donnée vérifiable). */
   rating: { value: '5.0', count: 3 },
 
   /** Référence éditoriale affichée dans les éléments « spec sheet ». */
@@ -38,8 +52,9 @@ export const company = {
 
   /** Lien et iframe Google Maps. */
   maps: {
-    embed: 'https://www.google.com/maps?q=Rue+du+Port,+45360+Ch%C3%A2tillon-sur-Loire&output=embed',
-    link: 'https://www.google.com/maps/search/?api=1&query=Rue+du+Port,+45360+Ch%C3%A2tillon-sur-Loire',
+    embed:
+      'https://www.google.com/maps?q=Rue+Port+de+Plaisance,+45360+Ch%C3%A2tillon-sur-Loire&output=embed',
+    link: 'https://www.google.com/maps/search/?api=1&query=Rue+Port+de+Plaisance,+45360+Ch%C3%A2tillon-sur-Loire',
   },
 } as const;
 
@@ -68,27 +83,27 @@ export const navigation = [
 export const hero = {
   status: 'Disponible — devis sous 24 h',
   ratingLabel: '5,0 sur Google',
-  title: ['Votre électricien', 'de confiance,', 'à Châtillon.'] as const,
-  /** Mot mis en italique bleu dans le titre (correspond à l'index du tableau ci-dessus). */
+  title: ['Électricien & plombier', 'de confiance,', 'à Châtillon.'] as const,
+  /** Ligne mise en valeur dans le titre (index 0-based du tableau ci-dessus). */
   emphasisLine: 1,
-  underbar: 'Installation · Dépannage · Rénovation · Mise aux normes',
+  underbar: 'Électricité · Plomberie · Climatisation · Domotique · Dépannage',
   subtitle:
-    'Installation, dépannage et rénovation électrique. Un travail soigné, des tarifs justes et un service professionnel pour tous vos projets — particuliers comme professionnels.',
+    'Électricité, plomberie, climatisation et domotique — en neuf comme en rénovation. Un travail soigné et un service de proximité, dans un rayon de 50 km autour de Châtillon-sur-Loire.',
   ctaPrimary: { label: 'Demander un devis', href: '#contact' },
   ctaSecondary: { label: 'Voir mes services', href: '#services' },
   /** Lignes de la carte « spec sheet » à droite du héros. */
   specs: [
     'Devis gratuit & sans engagement',
     'Intervention rapide — réponse sous 24 h',
-    'Travaux conformes NF C 15-100',
+    'Travaux conformes aux normes en vigueur',
     'Particuliers & professionnels',
   ],
   /** Statistiques affichées en bas du héros. */
   stats: [
-    { value: '5,0', unit: '/5', label: 'Note Google · 7 avis' },
+    { value: '5,0', unit: '/5', label: 'Note Google · 3 avis' },
     { value: '100', unit: '%', label: 'Clients satisfaits' },
     { value: '24', unit: 'h', label: 'Délai de réponse' },
-    { value: '6', unit: 'j/7', label: 'Disponibilité' },
+    { value: '50', unit: 'km', label: "Rayon d'intervention" },
   ],
 } as const;
 
@@ -110,29 +125,39 @@ export type IconName =
 export const services = {
   index: '02 — SERVICES',
   label: 'Mes prestations',
-  title: ['Des services électriques', 'complets.'] as const,
+  title: ['Tous vos travaux', 'au même endroit.'] as const,
   emphasisLine: 1,
-  lead: "De l'installation neuve à la mise aux normes — un accompagnement complet, pensé pour durer.",
+  lead: 'Électricité, plomberie, climatisation et domotique — en neuf comme en rénovation, dépannage et mise aux normes.',
   items: [
     {
-      title: 'Installation électrique',
+      title: 'Électricité générale',
       description:
-        'Installation complète pour constructions neuves et extensions : tableaux, prises, éclairage et câblage aux normes NF C 15-100.',
+        'Installation, rénovation et mise en conformité : tableaux, prises, éclairage et câblage aux normes NF C 15-100, en neuf comme en rénovation.',
     },
     {
-      title: 'Dépannage & réparation',
+      title: 'Plomberie sanitaire',
       description:
-        'Intervention rapide pour vos pannes, courts-circuits et disjoncteurs défaillants. Diagnostic précis et réparation efficace.',
+        "Réseaux d'eau, alimentation et évacuation, salle de bains et raccordements — installation soignée et dépannage de fuites.",
     },
     {
-      title: 'Rénovation électrique',
+      title: 'Climatisation',
       description:
-        'Remise à neuf de votre installation : remplacement du câblage ancien, modernisation du tableau, mise en conformité complète.',
+        "Pose et entretien de climatisations et pompes à chaleur, en neuf comme en rénovation, pour un confort optimal toute l'année.",
+    },
+    {
+      title: 'Domotique',
+      description:
+        "Pilotez votre maison : éclairage connecté, volets, chauffage et objets intelligents pour plus de confort et d'économies d'énergie.",
+    },
+    {
+      title: 'Dépannage',
+      description:
+        'Intervention rapide pour vos pannes électriques et fuites de plomberie. Diagnostic précis et réparation efficace.',
     },
     {
       title: 'Mise aux normes',
       description:
-        'Vérification et mise en conformité de votre installation selon les normes en vigueur, avec diagnostic électrique détaillé.',
+        'Vérification et mise en conformité de vos installations selon les normes en vigueur, avec diagnostic détaillé.',
     },
   ],
 } as const;
@@ -141,19 +166,19 @@ export const services = {
 export const about = {
   index: '03 — PROFIL',
   label: 'À propos',
-  title: ['Un électricien', 'passionné,', 'à votre service.'] as const,
+  title: ['Un artisan', 'passionné,', 'à votre service.'] as const,
   emphasisLine: 1,
-  lead: 'Indépendant. Précis. Transparent.',
+  lead: "Indépendant. Polyvalent. À l'écoute.",
   paragraphs: [
-    'Je suis Fabien Auffret, <span class="em">électricien indépendant</span> basé à Châtillon-sur-Loire. Passionné par mon métier, je mets un point d\'honneur à réaliser un travail très soigné sur chaque chantier, de la petite intervention à la rénovation complète.',
-    'Mon approche repose sur l\'<span class="em">écoute, la précision et la transparence</span>. Je prends le temps de comprendre vos besoins pour vous proposer des solutions adaptées, fiables et conformes aux normes en vigueur.',
-    'Particulier ou professionnel, je vous accompagne de A à Z dans tous vos projets électriques, avec sérieux et réactivité.',
+    'Je suis Fabien Auffret, <span class="em">artisan électricien et plombier</span> indépendant basé à Châtillon-sur-Loire. Passionné par mon métier, je mets un point d\'honneur à réaliser un travail très soigné sur chaque chantier, de la petite intervention à la rénovation complète.',
+    'De l\'<span class="em">électricité à la plomberie</span>, en passant par la climatisation et la domotique, je vous accompagne en neuf comme en rénovation avec des solutions fiables et conformes aux normes en vigueur.',
+    "Mon approche repose sur l'écoute, la précision et la transparence — pour les particuliers comme pour les professionnels, dans un rayon de 50 km autour de Châtillon-sur-Loire.",
   ],
   /** Carte d'information sous les paragraphes. */
   infoCard: [
     { label: 'Note Google', value: '5,0', suffix: '/ 5' },
     { label: 'Clients satisfaits', value: '100', suffix: '%' },
-    { label: 'Disponibilité', value: '6', suffix: 'J/7' },
+    { label: "Rayon d'action", value: '50', suffix: 'km' },
   ],
 } as const;
 
@@ -178,7 +203,7 @@ export const reasons = {
     {
       icon: 'shield' as IconName,
       title: 'Conformité',
-      description: 'Installations conformes au strict respect des normes électriques.',
+      description: 'Installations conformes au strict respect des normes en vigueur.',
     },
     {
       icon: 'star' as IconName,
@@ -191,7 +216,7 @@ export const reasons = {
 /** Bandeau d'appel à l'action (section intermédiaire avec photo). */
 export const ctaBand = {
   tag: 'Un projet en tête ?',
-  title: ['Confiez vos travaux', 'électriques', 'à un professionnel.'] as const,
+  title: ['Confiez vos travaux', 'à un artisan', 'de confiance.'] as const,
   emphasisLine: 1,
   subtitle:
     "Particulier ou professionnel, bénéficiez d'un devis gratuit et de conseils adaptés à votre projet.",
@@ -208,8 +233,8 @@ export const contact = {
     step: 'VOS COORDONNÉES',
     fields: {
       name: 'Prénom Nom',
-      phone: '07 00 00 00 00',
-      message: 'Rénovation, dépannage, installation neuve…',
+      phone: '06 00 00 00 00',
+      message: 'Rénovation, dépannage, installation neuve, climatisation…',
     },
     submit: 'Envoyer ma demande',
   },
@@ -218,7 +243,7 @@ export const contact = {
 /** Zones d'intervention (communes du Loiret autour de Châtillon-sur-Loire). */
 export const serviceArea = {
   tag: "Zones d'intervention",
-  title: ['Au cœur du', 'Loiret.'] as const,
+  title: ['Jusqu’à', '50 km', 'autour de Châtillon.'] as const,
   emphasisLine: 1,
   primary: 'Châtillon-sur-Loire',
   towns: [
@@ -228,14 +253,16 @@ export const serviceArea = {
     'Bonny-sur-Loire',
     'Ousson-sur-Loire',
     'Saint-Brisson-sur-Loire',
+    'Sully-sur-Loire',
+    'Cosne-sur-Loire',
   ],
 } as const;
 
 /** SEO — métadonnées par défaut de la page. */
 export const seo = {
-  title: 'Fabien Auffret | Électricien à Châtillon-sur-Loire (45)',
+  title: 'Fabien Auffret | Électricien & plombier à Châtillon-sur-Loire (45)',
   description:
-    'Fabien Auffret, électricien à Châtillon-sur-Loire (45). Installation, dépannage, rénovation et mise aux normes électriques. Devis gratuit, intervention rapide. ☎ 07 83 10 00 12.',
+    'Fabien Auffret, électricien et plombier à Châtillon-sur-Loire (45). Électricité, plomberie, climatisation, domotique, dépannage et mise aux normes — neuf et rénovation. Devis gratuit dans un rayon de 50 km. ☎ 06 26 20 48 19.',
   /** Image Open Graph (1200×630, générée dans /public). */
   ogImage: '/og-image.png',
   locale: 'fr_FR',

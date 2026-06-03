@@ -62,7 +62,13 @@ import { serviceArea } from '../data/site';
     margin-top: 10px;
   }
   .area h3 .em-blue {
-    color: var(--color-electric);
+    color: inherit;
+    background-image: linear-gradient(
+      180deg,
+      transparent 64%,
+      color-mix(in oklab, var(--color-electric) 62%, transparent) 0
+    );
+    background-repeat: no-repeat;
   }
   .area-towns {
     display: flex;
@@ -82,9 +88,9 @@ import { serviceArea } from '../data/site';
   }
   .chip.primary {
     background: var(--color-electric);
-    color: white;
+    color: var(--color-ink);
     border-color: var(--color-electric);
-    font-weight: 500;
+    font-weight: 600;
   }
   .chip .dot {
     width: 4px;

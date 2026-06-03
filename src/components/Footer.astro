@@ -1,6 +1,8 @@
 ---
-// Pied de page : grand titre + CTA, grille 4 colonnes, barre légale.
-// Fond encre sombre identique à la section À propos.
+// Pied de page : logo + grand titre + CTA, grille 4 colonnes, barre légale.
+// Fond encre marine identique à la section À propos.
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
 import { company, navigation, openingHours } from '../data/site';
 
 const year = new Date().getFullYear();
@@ -9,10 +11,21 @@ const year = new Date().getFullYear();
 <footer class="foot">
   <div class="wrap">
     <div class="foot-top">
-      <h2>
-        Un projet électrique&nbsp;?<br />
-        <span class="em-blue">Parlons-en.</span>
-      </h2>
+      <div>
+        <span class="foot-brand">
+          <Image
+            src={logo}
+            alt={company.fullName}
+            class="foot-logo"
+            widths={[120, 240]}
+            sizes="120px"
+          />
+        </span>
+        <h2>
+          Un projet à réaliser&nbsp;?<br />
+          <span class="em-blue">Parlons-en.</span>
+        </h2>
+      </div>
       <div class="foot-cta">
         <a class="btn btn-primary" href="#contact">
           Demander un devis
@@ -33,6 +46,7 @@ const year = new Date().getFullYear();
       <div>
         <h4>Adresse</h4>
         <ul>
+          <li>{company.address.extended}</li>
           <li>{company.address.street}</li>
           <li>{company.address.postalCode} {company.address.locality}</li>
           <li>{company.address.region} · France</li>
@@ -42,6 +56,7 @@ const year = new Date().getFullYear();
         <h4>Contact</h4>
         <ul>
           <li><a href={company.phoneLink}>{company.phoneDisplay}</a></li>
+          <li><a href={company.emailLink}>{company.email}</a></li>
           <li>Devis sous 24 h</li>
         </ul>
       </div>
@@ -63,16 +78,17 @@ const year = new Date().getFullYear();
         <ul>
           <li>{openingHours.display}</li>
           <li>{openingHours.closed}</li>
+          <li>Rayon de {company.radiusKm} km</li>
         </ul>
       </div>
     </div>
 
     <div class="foot-bottom">
-      <div>© {year} {company.fullName} · Tous droits réservés</div>
+      <div>© {year} {company.fullName} · SIRET {company.siretDisplay}</div>
       <div>
         <a href="/mentions-legales">Mentions légales</a>
         <span class="sep">·</span>
-        <a href="/mentions-legales">Confidentialité</a>
+        <a href="/mentions-legales#donnees">Confidentialité</a>
       </div>
     </div>
   </div>
@@ -105,6 +121,20 @@ const year = new Date().getFullYear();
     .foot-top {
       grid-template-columns: 1fr;
     }
+  }
+  .foot-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 6px 10px;
+    margin-bottom: 22px;
+  }
+  .foot-logo {
+    height: 40px;
+    width: auto;
+    display: block;
   }
   .foot-top h2 {
     font-size: clamp(34px, 4.6vw, 56px);

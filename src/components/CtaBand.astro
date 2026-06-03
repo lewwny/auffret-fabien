@@ -3,7 +3,7 @@
 // de chantier à droite dans un cadre arrondi.
 import { Image } from 'astro:assets';
 import { company, ctaBand } from '../data/site';
-import cablagePhoto from '../assets/photos/cablage.jpg';
+import climPhoto from '../assets/photos/climatisation.jpg';
 ---
 
 <section class="ctaband">
@@ -40,8 +40,8 @@ import cablagePhoto from '../assets/photos/cablage.jpg';
       </div>
       <div class="ctaband-img">
         <Image
-          src={cablagePhoto}
-          alt="Travaux de câblage réalisés par Fabien Auffret"
+          src={climPhoto}
+          alt="Installation d'une climatisation par Fabien Auffret"
           widths={[640, 960, 1280]}
           sizes="(min-width: 920px) 45vw, 90vw"
           class="cta-photo"
@@ -83,7 +83,13 @@ import cablagePhoto from '../assets/photos/cablage.jpg';
     max-width: 16ch;
   }
   .ctaband-text h2 .em-blue {
-    color: var(--color-electric);
+    color: inherit;
+    background-image: linear-gradient(
+      180deg,
+      transparent 64%,
+      color-mix(in oklab, var(--color-electric) 62%, transparent) 0
+    );
+    background-repeat: no-repeat;
   }
   .ctaband-text p {
     color: var(--color-ink-2);

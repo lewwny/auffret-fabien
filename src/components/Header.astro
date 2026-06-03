@@ -1,27 +1,25 @@
 ---
-// En-tête sticky : logo + brand-meta, navigation pilule et CTA téléphone.
+// En-tête sticky : logo de la marque (pastille blanche), navigation
+// pilule et CTA téléphone.
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
 import { company, navigation } from '../data/site';
 ---
 
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a href="#accueil" class="brand" aria-label="Retour en haut de page">
-      <span class="brand-mark" aria-hidden="true">
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.4"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"></path>
-        </svg>
+    <a href="#accueil" class="brand" aria-label={`${company.name} — accueil`}>
+      <span class="brand-chip">
+        <Image
+          src={logo}
+          alt={company.fullName}
+          class="brand-logo"
+          widths={[120, 240]}
+          sizes="120px"
+          loading="eager"
+        />
       </span>
-      <span class="brand-name">{company.name}</span>
-      <span class="brand-meta"
-        >{company.role} · {company.address.region} {company.address.regionCode}</span
-      >
+      <span class="brand-meta">{company.metaLine}</span>
     </a>
 
     <nav class="primary" aria-label="Navigation principale">
@@ -132,11 +130,11 @@ import { company, navigation } from '../data/site';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 68px;
+    height: 72px;
     gap: 16px;
   }
 
-  /* ── Marque ─────────────────────────────────────────────── */
+  /* ── Marque (logo en pastille) ──────────────────────────── */
   .brand {
     display: flex;
     align-items: center;
@@ -144,32 +142,31 @@ import { company, navigation } from '../data/site';
     color: inherit;
     text-decoration: none;
   }
-  .brand-mark {
-    width: 30px;
-    height: 30px;
-    background: var(--color-ink);
-    color: var(--color-electric-hi);
-    border-radius: 8px;
-    display: grid;
-    place-items: center;
+  .brand-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+    padding: 5px 9px;
+    box-shadow: 0 1px 2px rgba(14, 22, 38, 0.05);
   }
-  .brand-mark svg {
-    width: 14px;
-    height: 14px;
-  }
-  .brand-name {
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.01em;
+  .brand-logo {
+    height: 38px;
+    width: auto;
+    display: block;
   }
   .brand-meta {
     font-family: var(--font-mono);
     font-size: 10.5px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--color-mute);
     border-left: 1px solid var(--color-line);
     padding-left: 12px;
-    margin-left: 4px;
+    max-width: 16ch;
+    line-height: 1.4;
   }
 
   /* ── Navigation pilule ──────────────────────────────────── */
@@ -209,10 +206,13 @@ import { company, navigation } from '../data/site';
     align-items: center;
     gap: 8px;
     text-decoration: none;
-    transition: background 0.2s;
+    transition:
+      background 0.2s,
+      color 0.2s;
   }
   .top-cta:hover {
     background: var(--color-electric);
+    color: var(--color-ink);
   }
   .top-cta .dot {
     width: 6px;
@@ -220,6 +220,10 @@ import { company, navigation } from '../data/site';
     background: var(--color-electric-hi);
     border-radius: 50%;
     box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-electric-hi) 30%, transparent);
+  }
+  .top-cta:hover .dot {
+    background: var(--color-ink);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-ink) 25%, transparent);
   }
   .top-cta svg {
     width: 12px;

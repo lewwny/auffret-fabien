@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   // URL canonique du site — utilisée pour le sitemap, les balises canoniques et Open Graph.
-  site: 'https://www.fabien-auffret.fr',
+  site: 'https://fabienauffret.fr',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

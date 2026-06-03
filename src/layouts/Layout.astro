@@ -15,19 +15,21 @@ const { title = seo.title, description = seo.description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? company.url).href;
 const ogImage = new URL(seo.ogImage, Astro.site ?? company.url).href;
 
-// --- Données structurées Schema.org : type Electrician (SEO local) ---
+// --- Données structurées Schema.org : artisan multi-métier (SEO local) ---
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Electrician',
+  '@type': ['Electrician', 'Plumber', 'HVACBusiness'],
   '@id': `${company.url}/#business`,
   name: company.fullName,
   url: company.url,
   image: ogImage,
   telephone: company.phoneLink.replace('tel:', ''),
+  email: company.email,
   priceRange: '€€',
+  vatID: company.siret,
   address: {
     '@type': 'PostalAddress',
-    streetAddress: company.address.street,
+    streetAddress: `${company.address.extended}, ${company.address.street}`,
     postalCode: company.address.postalCode,
     addressLocality: company.address.locality,
     addressRegion: company.address.region,
@@ -44,10 +46,22 @@ const jsonLd = {
     opens: openingHours.schema.opens,
     closes: openingHours.schema.closes,
   },
-  areaServed: [serviceArea.primary, ...serviceArea.towns].map((name) => ({
-    '@type': 'City',
-    name,
-  })),
+  // Zone desservie : cercle de 50 km + communes principales.
+  areaServed: [
+    {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: company.geo.latitude,
+        longitude: company.geo.longitude,
+      },
+      geoRadius: company.radiusKm * 1000,
+    },
+    ...[serviceArea.primary, ...serviceArea.towns].map((name) => ({
+      '@type': 'City',
+      name,
+    })),
+  ],
   makesOffer: services.items.map((s) => ({
     '@type': 'Offer',
     itemOffered: { '@type': 'Service', name: s.title, description: s.description },
@@ -83,7 +97,7 @@ const jsonLd = {
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow" />
     <meta name="author" content={company.fullName} />
-    <meta name="theme-color" content="#0E0F12" />
+    <meta name="theme-color" content="#0E1626" />
     <meta name="geo.region" content="FR-45" />
     <meta name="geo.placename" content={company.address.locality} />
 

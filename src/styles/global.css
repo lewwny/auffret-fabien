@@ -1,7 +1,7 @@
 /* ============================================================
    STYLES GLOBAUX — Tailwind CSS v4 + thème « Voltage »
-   Palette cream/ink + accent bleu électrique, typographie
-   Inter Tight + JetBrains Mono. Les polices sont chargées
+   Palette crème + marine (couleur du logo) et accent « éclair »
+   jaune. Typographie Inter Tight + JetBrains Mono, chargées
    depuis Google Fonts (voir <head> du Layout) avec preconnect.
    ============================================================ */
 
@@ -11,23 +11,23 @@
   --font-sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
 
-  /* Fond crème, encres profondes, lignes douces. */
+  /* Fond crème, encres marine (couleur du logo), lignes douces. */
   --color-canvas: #fafaf7;
   --color-stone: #f2f1ec;
   --color-paper: #ffffff;
-  --color-ink: #0e0f12;
-  --color-ink-2: #2a2c33;
+  --color-ink: #0e1626; /* marine profond du badge logo */
+  --color-ink-2: #2b3343;
   --color-mute: #6d6f78;
   --color-line: #deddd4;
-  --color-line-soft: #ecead0; /* léger jaune pour les grilles décoratives */
-  --color-line-soft: #ecead2;
-  --color-line-soft: #ecead8;
   --color-line-soft: #eceae2;
 
-  /* Accent électrique. */
-  --color-electric: #1e48e8;
-  --color-electric-hi: #4f73ff;
-  --color-electric-soft: #ecf0ff;
+  /* Accent « éclair » jaune de la marque.
+     Le jaune sert d'APLAT (boutons, pastilles, soulignés). Pour du
+     TEXTE sur fond clair on garde le marine (lisibilité) ; sur fond
+     sombre, --color-electric-hi (jaune clair) reste lisible. */
+  --color-electric: #f5b92e; /* jaune éclair (aplats) */
+  --color-electric-hi: #ffcb47; /* jaune clair (texte sur fond sombre) */
+  --color-electric-soft: #fdf3da; /* jaune très pâle (fonds de pastilles) */
 
   /* Texte sur fond sombre. */
   --color-on-ink: #f3f1eb;
@@ -53,7 +53,7 @@ body {
 
 ::selection {
   background: var(--color-electric);
-  color: white;
+  color: var(--color-ink);
 }
 
 h1,
@@ -95,9 +95,17 @@ h4 {
   letter-spacing: -0.04em;
   font-weight: 500;
 }
+/* Emphase sur fond CLAIR : texte marine + surlignage jaune (lisible).
+   Sur fond sombre (.on-ink), l'emphase devient jaune (voir plus bas). */
 .display .em-blue {
-  color: var(--color-electric);
+  color: inherit;
   font-style: italic;
+  background-image: linear-gradient(
+    180deg,
+    transparent 62%,
+    color-mix(in oklab, var(--color-electric) 62%, transparent) 0
+  );
+  background-repeat: no-repeat;
 }
 .h-section {
   font-size: clamp(36px, 5vw, 68px);
@@ -106,7 +114,13 @@ h4 {
   font-weight: 500;
 }
 .h-section .em-blue {
-  color: var(--color-electric);
+  color: inherit;
+  background-image: linear-gradient(
+    180deg,
+    transparent 64%,
+    color-mix(in oklab, var(--color-electric) 62%, transparent) 0
+  );
+  background-repeat: no-repeat;
 }
 .lead {
   font-size: 18px;
@@ -150,12 +164,15 @@ h4 {
 .btn:hover svg {
   transform: translateX(3px);
 }
+/* Bouton principal : aplat jaune + texte marine (contraste fort). */
 .btn-primary {
   background: var(--color-electric);
-  color: white;
+  color: var(--color-ink);
+  font-weight: 600;
 }
 .btn-primary:hover {
   background: var(--color-ink);
+  color: var(--color-electric-hi);
 }
 .btn-ghost {
   background: transparent;
@@ -172,6 +189,7 @@ h4 {
 }
 .btn-ink:hover {
   background: var(--color-electric);
+  color: var(--color-ink);
 }
 
 /* ── En-tête de section (index + label + titre + lead) ───── */
@@ -202,11 +220,12 @@ h4 {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.14em;
-  color: var(--color-electric);
+  color: var(--color-ink);
   text-transform: uppercase;
   padding: 5px 10px;
   background: var(--color-electric-soft);
   border-radius: 4px;
+  font-weight: 600;
 }
 .section-head .col-tag .label {
   font-family: var(--font-mono);
@@ -243,6 +262,7 @@ h4 {
 }
 .on-ink .h-section .em-blue {
   color: var(--color-electric-hi);
+  background-image: none;
 }
 .on-ink .lead {
   color: color-mix(in oklab, var(--color-on-ink) 80%, transparent);
@@ -282,7 +302,7 @@ h4 {
 
 /* ── Focus visible accessible ───────────────────────────── */
 :where(a, button, input, textarea, select):focus-visible {
-  outline: 2px solid var(--color-electric);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   border-radius: 6px;
 }

@@ -64,9 +64,10 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
             <strong>{company.fullName}</strong><br />
             Entreprise individuelle représentée par <strong>{company.name}</strong><br />
             Siège social : {fullAddress}<br />
-            SIRET : <strong>88038794900014</strong><br />
+            SIREN : <strong>{company.sirenDisplay}</strong><br />
+            SIRET : <strong>{company.siretDisplay}</strong><br />
             Téléphone : <a href={company.phoneLink}>{company.phoneDisplay}</a><br />
-            E-mail : <strong>fabienauffret45@outlook.fr</strong>
+            E-mail : <a href={company.emailLink}>{company.email}</a>
           </p>
         </section>
 
@@ -114,9 +115,8 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
           <h2>5. Propriété intellectuelle</h2>
           <p>
             L'ensemble des contenus présents sur ce site (textes, photographies, graphismes, logo,
-            icônes, mise en page) est la propriété de {company.fullName} ou de ses prestataires,
-            et est protégé par les lois françaises et internationales relatives à la propriété
-            intellectuelle.
+            icônes, mise en page) est la propriété de {company.fullName} ou de ses prestataires, et est
+            protégé par les lois françaises et internationales relatives à la propriété intellectuelle.
           </p>
           <p>
             Toute reproduction, représentation, modification ou publication de tout ou partie des
@@ -130,10 +130,10 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
         <section id="responsabilite">
           <h2>6. Limitation de responsabilité</h2>
           <p>
-            {company.fullName} s'efforce d'assurer l'exactitude et la mise à jour des informations
-            diffusées sur ce site, mais ne peut garantir l'exhaustivité ou l'absence d'erreur de
-            ces informations. L'éditeur décline toute responsabilité pour tout dommage direct ou
-            indirect résultant de l'utilisation de ce site ou des informations qu'il contient.
+            {company.fullName} s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées
+            sur ce site, mais ne peut garantir l'exhaustivité ou l'absence d'erreur de ces informations.
+            L'éditeur décline toute responsabilité pour tout dommage direct ou indirect résultant de l'utilisation
+            de ce site ou des informations qu'il contient.
           </p>
           <p>
             L'accès au site peut être suspendu à tout moment, sans préavis, notamment pour des
@@ -150,7 +150,7 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
             Le responsable du traitement des données collectées via ce site est :<br />
             <strong>{company.name} — {company.fullName}</strong><br />
             Contact : <a href={company.phoneLink}>{company.phoneDisplay}</a> —
-            <strong>fabienauffret45@outlook.fr</strong>
+            <a href={company.emailLink}>{company.email}</a>
           </p>
 
           <h3>Données collectées</h3>
@@ -162,20 +162,20 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
 
           <h3>Base légale du traitement</h3>
           <p>
-            Le traitement est fondé sur votre <strong>consentement explicite</strong> (article 6.1.a
-            du RGPD), matérialisé par l'envoi volontaire du formulaire.
+            Le traitement est fondé sur votre <strong>consentement explicite</strong> (article 6.1.a du
+            RGPD), matérialisé par l'envoi volontaire du formulaire.
           </p>
 
           <h3>Destinataires des données</h3>
           <p>
-            Les données sont transmises exclusivement à {company.name} afin de traiter votre
-            demande. Elles ne sont en aucun cas cédées, vendues, louées ou communiquées à des
-            tiers à des fins commerciales.
+            Les données sont transmises exclusivement à {company.name} afin de traiter votre demande.
+            Elles ne sont en aucun cas cédées, vendues, louées ou communiquées à des tiers à des fins
+            commerciales.
           </p>
           <p>
-            Le service de traitement des formulaires de l'hébergeur et le service d'envoi
-            d'e-mails utilisé pour l'acheminement des messages sont des sous-traitants techniques
-            soumis à des obligations contractuelles de confidentialité.
+            Le service de traitement des formulaires de l'hébergeur et le service d'envoi d'e-mails
+            utilisé pour l'acheminement des messages sont des sous-traitants techniques soumis à des
+            obligations contractuelles de confidentialité.
           </p>
 
           <h3>Durée de conservation</h3>
@@ -201,14 +201,13 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
           <p>
             Pour exercer ces droits, contactez {company.name} au
             <a href={company.phoneLink}>{company.phoneDisplay}</a>
-            (ou par e-mail à l'adresse professionnelle indiquée ci-dessus).
-            Une réponse vous sera apportée dans un délai d'un mois maximum.
+            (ou par e-mail à l'adresse professionnelle indiquée ci-dessus). Une réponse vous sera apportée
+            dans un délai d'un mois maximum.
           </p>
           <p>
             Vous avez également le droit d'introduire une réclamation auprès de la
             <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">CNIL</a>
-            (Commission Nationale de l'Informatique et des Libertés — 3 Place de Fontenoy, 75007
-            Paris).
+            (Commission Nationale de l'Informatique et des Libertés — 3 Place de Fontenoy, 75007 Paris).
           </p>
         </section>
 
@@ -216,9 +215,9 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
         <section id="cookies">
           <h2>8. Cookies</h2>
           <p>
-            Ce site <strong>n'utilise aucun cookie</strong> publicitaire, de suivi ou d'analyse
-            statistique. Aucun cookie tiers n'est déposé lors de votre navigation. Aucune bannière
-            de consentement n'est donc requise.
+            Ce site <strong>n'utilise aucun cookie</strong> publicitaire, de suivi ou d'analyse statistique.
+            Aucun cookie tiers n'est déposé lors de votre navigation. Aucune bannière de consentement
+            n'est donc requise.
           </p>
         </section>
 
@@ -226,9 +225,9 @@ const fullAddress = `${company.address.extended}, ${company.address.street}, ${c
         <section id="droit">
           <h2>9. Droit applicable et juridiction compétente</h2>
           <p>
-            Les présentes mentions légales sont régies par le droit français. En cas de litige,
-            et après échec de toute tentative de résolution amiable, les tribunaux compétents
-            seront ceux du ressort du siège social de l'éditeur.
+            Les présentes mentions légales sont régies par le droit français. En cas de litige, et
+            après échec de toute tentative de résolution amiable, les tribunaux compétents seront
+            ceux du ressort du siège social de l'éditeur.
           </p>
         </section>
       </div>
