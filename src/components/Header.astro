@@ -165,8 +165,7 @@ import { company, navigation } from '../data/site';
     color: var(--color-mute);
     border-left: 1px solid var(--color-line);
     padding-left: 12px;
-    max-width: 16ch;
-    line-height: 1.4;
+    white-space: nowrap;
   }
 
   /* ── Navigation pilule ──────────────────────────────────── */
@@ -292,9 +291,14 @@ import { company, navigation } from '../data/site';
     border-radius: 50%;
   }
 
-  @media (max-width: 920px) {
-    nav.primary,
+  /* Masque la ligne « métier » plus tôt pour éviter de tasser la nav. */
+  @media (max-width: 1080px) {
     .brand-meta {
+      display: none;
+    }
+  }
+  @media (max-width: 920px) {
+    nav.primary {
       display: none;
     }
     .menu-toggle {

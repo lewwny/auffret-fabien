@@ -91,6 +91,31 @@ const year = new Date().getFullYear();
         <a href="/mentions-legales#donnees">Confidentialité</a>
       </div>
     </div>
+
+    <!-- Bandeau promotionnel : création du site (Leny Garcia) -->
+    <a class="foot-credit" href="https://garcialeny.com" target="_blank" rel="noopener noreferrer">
+      <span class="foot-credit-spark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"></path>
+        </svg>
+      </span>
+      <span class="foot-credit-text">
+        <span class="foot-credit-label">Un site web comme celui-ci pour votre activité&nbsp;?</span>
+        <span class="foot-credit-name">Création de sites internet — Leny Garcia</span>
+      </span>
+      <span class="foot-credit-cta">
+        garcialeny.com
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="m7 17 10-10M17 7H8m9 0v9"></path>
+        </svg>
+      </span>
+    </a>
   </div>
 </footer>
 
@@ -209,5 +234,83 @@ const year = new Date().getFullYear();
   .foot-bottom .sep {
     margin: 0 8px;
     opacity: 0.5;
+  }
+
+  /* ── Bandeau promo « création de site » ─────────────────── */
+  .foot-credit {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 14px;
+    background: color-mix(in oklab, var(--color-on-ink) 6%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-on-ink) 14%, transparent);
+    text-decoration: none;
+    color: var(--color-on-ink);
+    transition:
+      border-color 0.25s,
+      background 0.25s;
+  }
+  .foot-credit:hover {
+    border-color: var(--color-electric);
+    background: color-mix(in oklab, var(--color-electric) 10%, transparent);
+    color: var(--color-on-ink);
+  }
+  .foot-credit-spark {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: var(--color-electric);
+    color: var(--color-ink);
+  }
+  .foot-credit-spark svg {
+    width: 16px;
+    height: 16px;
+  }
+  .foot-credit-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-right: auto;
+  }
+  .foot-credit-label {
+    font-size: 14px;
+    color: var(--color-on-ink);
+  }
+  .foot-credit-name {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: color-mix(in oklab, var(--color-on-ink) 55%, transparent);
+  }
+  .foot-credit-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--color-electric-hi);
+  }
+  .foot-credit-cta svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s;
+  }
+  .foot-credit:hover .foot-credit-cta svg {
+    transform: translate(2px, -2px);
+  }
+  @media (max-width: 540px) {
+    .foot-credit {
+      flex-wrap: wrap;
+    }
+    .foot-credit-text {
+      margin-right: 0;
+    }
   }
 </style>
