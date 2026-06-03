@@ -8,7 +8,7 @@ import { company, navigation } from '../data/site';
 
 <header class="topbar">
   <div class="wrap topbar-inner">
-    <a href="#accueil" class="brand" aria-label={`${company.name} — accueil`}>
+    <a href="/#accueil" class="brand" aria-label={`${company.name} — accueil`}>
       <span class="brand-chip">
         <Image
           src={logo}
@@ -67,7 +67,7 @@ import { company, navigation } from '../data/site';
         stroke-width="2"
         stroke-linecap="round"
         data-icon-close
-        class="hidden-icon"
+        class="icon-close"
       >
         <path d="M6 6 18 18M18 6 6 18"></path>
       </svg>
@@ -75,7 +75,7 @@ import { company, navigation } from '../data/site';
   </div>
 
   <!-- Menu mobile déroulant -->
-  <div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
+  <div id="mobile-menu" class="mobile-menu" data-mobile-menu>
     <div class="wrap">
       {
         navigation.map((item) => (
@@ -93,26 +93,26 @@ import { company, navigation } from '../data/site';
 </header>
 
 <script>
-  // Ouverture / fermeture du menu mobile.
+  // Ouverture / fermeture animée du menu mobile (piloté par la classe .is-open).
   const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
-  const iconMenu = document.querySelector<SVGElement>('[data-icon-menu]');
-  const iconClose = document.querySelector<SVGElement>('[data-icon-close]');
 
   const setMenu = (open: boolean) => {
-    if (!menu) return;
-    if (open) menu.removeAttribute('hidden');
-    else menu.setAttribute('hidden', '');
-    iconMenu?.classList.toggle('hidden-icon', open);
-    iconClose?.classList.toggle('hidden-icon', !open);
+    menu?.classList.toggle('is-open', open);
+    toggle?.classList.toggle('is-open', open);
     toggle?.setAttribute('aria-expanded', String(open));
     toggle?.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
   };
 
-  toggle?.addEventListener('click', () => setMenu(menu?.hasAttribute('hidden') ?? false));
+  toggle?.addEventListener('click', () => setMenu(!(menu?.classList.contains('is-open') ?? false)));
   document
     .querySelectorAll('[data-menu-link]')
     .forEach((link) => link.addEventListener('click', () => setMenu(false)));
+
+  // Ferme le menu avec la touche Échap.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setMenu(false);
+  });
 </script>
 
 <style>
@@ -229,9 +229,10 @@ import { company, navigation } from '../data/site';
     height: 12px;
   }
 
-  /* ── Bouton menu mobile ─────────────────────────────────── */
+  /* ── Bouton menu mobile (icônes empilées + animation) ───── */
   .menu-toggle {
     display: none;
+    position: relative;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -243,18 +244,50 @@ import { company, navigation } from '../data/site';
     cursor: pointer;
   }
   .menu-toggle svg {
+    position: absolute;
+    inset: 0;
+    margin: auto;
     width: 18px;
     height: 18px;
+    transition:
+      opacity 0.25s ease,
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .hidden-icon {
-    display: none;
+  /* État fermé : burger visible, croix masquée (légèrement tournée). */
+  .menu-toggle .icon-close {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.7);
+  }
+  /* État ouvert : burger masqué, croix visible. */
+  .menu-toggle.is-open [data-icon-menu] {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.7);
+  }
+  .menu-toggle.is-open .icon-close {
+    opacity: 1;
+    transform: rotate(0) scale(1);
   }
 
-  /* ── Menu mobile déroulant ──────────────────────────────── */
+  /* ── Menu mobile déroulant (ouverture/fermeture animée) ─── */
   .mobile-menu {
-    border-top: 1px solid var(--color-line);
+    border-top: 1px solid transparent;
     background: color-mix(in oklab, var(--color-canvas) 96%, transparent);
     backdrop-filter: blur(10px);
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      max-height 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.26s ease,
+      visibility 0.34s,
+      border-color 0.34s ease;
+  }
+  .mobile-menu.is-open {
+    max-height: 80vh;
+    opacity: 1;
+    visibility: visible;
+    border-top-color: var(--color-line);
   }
   .mobile-menu .wrap {
     display: flex;
@@ -262,6 +295,40 @@ import { company, navigation } from '../data/site';
     gap: 4px;
     padding-top: 12px;
     padding-bottom: 16px;
+  }
+  /* Petite entrée en cascade des liens à l'ouverture. */
+  .mobile-menu .wrap > * {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  .mobile-menu.is-open .wrap > * {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-menu.is-open .wrap > *:nth-child(1) {
+    transition-delay: 0.06s;
+  }
+  .mobile-menu.is-open .wrap > *:nth-child(2) {
+    transition-delay: 0.1s;
+  }
+  .mobile-menu.is-open .wrap > *:nth-child(3) {
+    transition-delay: 0.14s;
+  }
+  .mobile-menu.is-open .wrap > *:nth-child(4) {
+    transition-delay: 0.18s;
+  }
+  .mobile-menu.is-open .wrap > *:nth-child(5) {
+    transition-delay: 0.22s;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .menu-toggle svg,
+    .mobile-menu,
+    .mobile-menu .wrap > * {
+      transition: none;
+    }
   }
   .mobile-menu a {
     padding: 12px 16px;

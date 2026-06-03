@@ -71,12 +71,13 @@ export const openingHours = {
   },
 } as const;
 
-/** Liens de navigation (ancres internes de la page unique). */
+/** Liens de navigation. Ancres racine-relatives (`/#…`) pour qu'elles
+ *  fonctionnent aussi depuis les pages secondaires (ex. mentions légales). */
 export const navigation = [
-  { label: 'Services', href: '#services' },
-  { label: 'À propos', href: '#a-propos' },
-  { label: 'Engagements', href: '#engagements' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Services', href: '/#services' },
+  { label: 'À propos', href: '/#a-propos' },
+  { label: 'Engagements', href: '/#engagements' },
+  { label: 'Contact', href: '/#contact' },
 ] as const;
 
 /** Section Hero. */
