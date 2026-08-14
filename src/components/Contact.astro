@@ -24,12 +24,33 @@ const shortAddress = `${company.address.street}, ${company.address.postalCode} $
       <div class="devis-wrap reveal">
         {
           /*
-          Formulaire prêt à brancher : renseignez `action` avec un service
-          (Formspree, Netlify Forms…). Le script en bas du fichier intercepte
-          l'envoi pour jouer l'animation de confirmation.
+          Formulaire branché sur Netlify Forms.
+          - `data-netlify="true"` + `name` : Netlify détecte le formulaire au build
+            et enregistre les soumissions.
+          - Le champ caché `form-name` et le honeypot `bot-field` sont requis par
+            Netlify (le honeypot filtre les robots spammeurs).
+          - Le script en bas du fichier envoie les données en AJAX (fetch) puis joue
+            l'animation de confirmation.
+          - L'adresse de réception (fabienauffret45@outlook.fr) se configure une
+            seule fois dans le tableau de bord Netlify (voir le commentaire du script).
         */
         }
-        <form class="devis" data-contact-form novalidate>
+        <form
+          class="devis"
+          name="contact"
+          method="POST"
+          action="/"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          data-contact-form
+          novalidate
+        >
+          {/* Champ caché requis par Netlify pour identifier le formulaire */}
+          <input type="hidden" name="form-name" value="contact" />
+          {/* Honeypot anti-spam : masqué aux humains, rempli seulement par les robots */}
+          <p class="hidden-field">
+            <label>Ne remplissez pas ce champ : <input name="bot-field" /></label>
+          </p>
           <div class="form-head">
             <span class="step"><strong>01</strong> / 02 — {f.step}</span>
             <span class="tag">RÉF. {company.ref}</span>
@@ -174,7 +195,13 @@ const shortAddress = `${company.address.street}, ${company.address.postalCode} $
   const btnSpinner = document.querySelector<HTMLElement>('[data-btn-spinner]');
   const resetBtn = document.querySelector<HTMLButtonElement>('[data-reset]');
 
-  form?.addEventListener('submit', (event) => {
+  // ⚙️  Réception des e-mails
+  // Les soumissions arrivent dans Netlify → onglet « Forms » du site.
+  // Pour recevoir chaque demande sur fabienauffret45@outlook.fr :
+  //   Netlify → Site settings → Forms → Form notifications →
+  //   Add notification → Email notification → renseigner l'adresse.
+  // (Le destinataire ne se configure pas dans le code : c'est un réglage Netlify.)
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (!form.checkValidity()) {
       form.reportValidity();
@@ -185,10 +212,29 @@ const shortAddress = `${company.address.street}, ${company.address.postalCode} $
     btnLabel?.classList.add('is-hidden');
     btnSpinner?.classList.add('is-visible');
 
-    window.setTimeout(() => {
+    try {
+      // Envoi AJAX vers Netlify Forms (données encodées en x-www-form-urlencoded).
+      const body = new URLSearchParams(new FormData(form) as unknown as Record<string, string>);
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+      });
+
+      if (!response.ok) throw new Error(`Réponse ${response.status}`);
+
       form.classList.add('is-hidden');
       success?.removeAttribute('hidden');
-    }, 750);
+    } catch (error) {
+      console.error('Envoi du formulaire échoué :', error);
+      // On réactive le bouton pour permettre une nouvelle tentative.
+      if (submitBtn) submitBtn.disabled = false;
+      btnLabel?.classList.remove('is-hidden');
+      btnSpinner?.classList.remove('is-visible');
+      window.alert(
+        "Désolé, l'envoi a échoué. Vérifiez votre connexion et réessayez, ou appelez-nous directement.",
+      );
+    }
   });
 
   resetBtn?.addEventListener('click', () => {
@@ -231,6 +277,14 @@ const shortAddress = `${company.address.street}, ${company.address.postalCode} $
   }
   .devis.is-hidden {
     display: none;
+  }
+  /* Honeypot anti-spam : invisible et hors du flux, non focusable par les humains. */
+  .hidden-field {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
   .form-head {
     display: flex;
