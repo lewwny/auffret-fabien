@@ -53,9 +53,16 @@ mettre à jour les textes : il suffit de modifier ce fichier.
 
 ## Points à compléter avant la mise en ligne
 
-- **Formulaire de contact** : brancher l'attribut `action` du `<form>` dans
-  `src/components/Contact.astro` à un service de traitement (Formspree, Netlify
-  Forms, Web3Forms…).
+- **Formulaire de contact** : déjà branché sur **Netlify Forms** (voir
+  `src/components/Contact.astro`). Une seule étape reste à faire côté Netlify pour
+  recevoir les demandes par e-mail :
+  1. Déployer le site sur Netlify (les formulaires ne fonctionnent que sur
+     l'hébergement Netlify — le formulaire est détecté automatiquement au build).
+  2. Netlify → **Site settings → Forms → Form notifications → Add notification →
+     Email notification**, puis saisir l'adresse **fabienauffret45@outlook.fr**.
+
+  Les soumissions sont aussi consultables à tout moment dans l'onglet **Forms**
+  du tableau de bord Netlify.
 - **Mentions légales** : compléter les champs `[à compléter]` dans
   `src/pages/mentions-legales.astro` (SIRET, TVA, hébergeur).
 - **Nom de domaine** : ajuster `site` dans `astro.config.mjs` si le domaine final
